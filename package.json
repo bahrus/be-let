@@ -1,0 +1,19 @@
+{
+  "name": "be-let",
+  "version": "0.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/bahrus/be-let.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/bahrus/be-let/issues"
+  },
+  "homepage": "https://github.com/bahrus/be-let#readme"
+}
