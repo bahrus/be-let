@@ -1,14 +1,10 @@
 # be-let
 
-*be-let* turns a section of HTML into a tiny unnamed islands of interactivity -- is-lets (get it?).
+*be-let* turns a section of HTML into tiny unnamed islands of interactivity -- is-lets (get it?).
 
-In SAT speak:
+To make it happen, developers can create reusable "scriptlets" similar in concept to this [stranded technology](https://learn.microsoft.com/en-us/previous-versions/office/developer/office2000/aa189871(v=office.10)?redirectedfrom=MSDN) that conceptually should be easy to formalize to an element decorator / behavior or even a web component should the needs arise (solidifying requirements, reusable )
 
-be-let : web components :: islet : island.
-
-To make it happen, developers can create reusable "scriptlets" similar in concept to this [stranded technology](https://learn.microsoft.com/en-us/previous-versions/office/developer/office2000/aa189871(v=office.10)?redirectedfrom=MSDN) that conceptually should be easy to formalize to a web component should the needs arise (solidifying requirements, reusable )
-
-It's also kind of like jquery via script tags (so admittedly a little more verbose)
+It's also kind of like jquery via script tags (but admittedly a little more verbose)
 
 ## Example 1
 
@@ -51,17 +47,57 @@ scope is an ES6 proxy / Event target that is associated with the div element.  C
 It is shorthand for:
 
 ```html
-<script nomodule be-exporting be-matching='{
+<script nomodule be-exporting be-let='{
     "for": "itempropAttrs",
     "scope": ["upSearch", ":not(script)"],
 }'>
-  export class Scriptlet{
-    onMutate({target, added}){
+  export const Scriptlet = class extends EventTarget {
+    do({target, added, value, scope}){
         console.log(target, added, value, scope);
         target.contentEditable = added;
         scope[value] = added ? 
                      target.localName === 'a' ? target.href : target.textContent
                     : undefined;
+    };
+  }
+
+</script>
+```
+
+## Example 2:
+
+```html
+<script nomodule be-let=contenteditableAs>
+    #abortController;
+    //=>
+    if(added){
+      target.addEventListener('input', e => {
+        scope[value] = target.localName === 'a' ? target.href : target.textContent;
+      }, {signal: #abortController})
+    }else{
+      #abortController.abort();
+    }
+    
+</script>
+```
+
+shorthand for 
+
+```html
+<script nomodule be-exporting be-let='{
+    "for": "contenteditableAs",
+    "scope": ["upSearch", ":not(script)"],
+}'>
+  export const Scriptlet = class extends EventTarget {
+    #abortController;
+    do({target, added, value, scope}){
+        if(added){
+            target.addEventListener('input', e => {
+                scope[value] = target.localName === 'a' ? target.href : target.textContent;
+            }, {signal: #abortController})
+        }else{
+            #abortController.abort();
+        }
     };
   }
 
