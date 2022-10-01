@@ -51,8 +51,8 @@ It is shorthand for:
 
 ```html
 <script nomodule be-exporting be-let='{
+    "beScoping": ["upSearch", ":not(script)"],
     "for": "itempropAttrs",
-    "scope": ["upSearch", ":not(script)"],
 }'>
   export const do = async ({target, added, value, scope}) => {
     console.log(target, added, value, scope);
@@ -69,7 +69,7 @@ It is shorthand for:
 ```html
 <script nomodule be-let='{
   "for": "contenteditableAs",
-  "on": "input"
+  "on": "input",
 }'>
     scope[value] = target.localName === 'a' ? target.href : target.textContent;
 </script>
@@ -79,8 +79,8 @@ shorthand for
 
 ```html
 <script nomodule be-exporting be-let='{
-    "for": "contenteditableAs",
-    "scope": ["upSearch", ":not(script)"],
+  "beScoping": ["upSearch", ":not(script)"],
+  "for": "contenteditableAs"
 }'>
   export const Scriptlet = class{
     #abortController = new AbortController;
