@@ -6,7 +6,7 @@ To make it happen, developers can create reusable "scriptlets" similar in concep
 
 It's also kind of like jquery via script tags (but admittedly a little more verbose)
 
-## Example 1
+## Example 1 [TODO]
 
 ```html
 <div itemscope itemtype="https://schema.org/Movie">
@@ -52,7 +52,7 @@ It is shorthand for:
     "scope": ["upSearch", ":not(script)"],
 }'>
   export const Scriptlet = class extends EventTarget {
-    do({target, added, value, scope}){
+    async do({target, added, value, scope}){
         console.log(target, added, value, scope);
         target.contentEditable = added;
         scope[value] = added ? 
@@ -64,7 +64,7 @@ It is shorthand for:
 </script>
 ```
 
-## Example 2:
+## Example 2: [TODO]
 
 ```html
 <script nomodule be-let=contenteditableAs>
@@ -104,3 +104,12 @@ shorthand for
 </script>
 ```
 
+## Example 3 [TODO]
+
+transforms:
+
+1)  If do returns an object, assume it is a transform on the scoping element
+
+2)  allow a transform to be "hardcoded" in the json attribute as well.
+
+3)  host of transform is the scope object
