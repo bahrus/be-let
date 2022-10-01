@@ -20,14 +20,14 @@ It's also kind of like jquery via script tags (but admittedly a little more verb
     console.log(target, added, value, scope);
     target.contentEditable = added;
     scope[value] = added ? 
-                     target.localName === 'a' ? target.href : target.textContent
+                     ('href' in target) ? target.href : target.textContent
                     : undefined;
 </script>
 ```
 
 Does the following:
 
-Logs elements with attribute itemprop. added will be true always in this example. 
+Logs elements with attribute itemprop. "added" will be true always in this example. 
 
 value is the value of the attribute.
 
