@@ -19,9 +19,12 @@ It's also kind of like jquery via script tags (but admittedly a little more verb
 <script nomodule be-let=itempropAttrs>
     console.log(target, added, value, scope);
     target.contentEditable = added;
-    scope[value] = added ? 
-                     ('href' in target) ? target.href : target.textContent
-                    : undefined;
+    scope[value] = 
+      added ? 
+          ('href' in target) ? 
+            target.href 
+            : target.textContent
+      : undefined;
 </script>
 ```
 
@@ -51,33 +54,24 @@ It is shorthand for:
     "for": "itempropAttrs",
     "scope": ["upSearch", ":not(script)"],
 }'>
-  export const Scriptlet = class {
-    async do({target, added, value, scope}){
-        console.log(target, added, value, scope);
-        target.contentEditable = added;
-        scope[value] = added ? 
-                     target.localName === 'a' ? target.href : target.textContent
-                    : undefined;
-    };
+  export const do = async ({target, added, value, scope}) => {
+    console.log(target, added, value, scope);
+    target.contentEditable = added;
+    scope[value] = added ? 
+                  ('href' in target) ? target.href : target.textContent
+                : undefined;
   }
-
 </script>
 ```
 
 ## Example 2: [TODO]
 
 ```html
-<script nomodule be-let=contenteditableAs>
-    #abortController = new AbortController();
-    //=>
-    if(added){
-      target.addEventListener('input', e => {
-        scope[value] = target.localName === 'a' ? target.href : target.textContent;
-      }, {signal: #abortController.signal})
-    }else{
-      #abortController.abort();
-    }
-    
+<script nomodule be-let='{
+  "for": "contenteditableAs",
+  "on": "input"
+}'>
+    scope[value] = target.localName === 'a' ? target.href : target.textContent;
 </script>
 ```
 
