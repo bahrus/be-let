@@ -2,9 +2,33 @@
   "name": "be-let",
   "version": "0.0.1",
   "description": "",
-  "main": "index.js",
+  "main": "be-let.js",
+  "module": "be-let.js",
+  "exports":{
+    ".": "./be-let.js",
+    "./be-let.js": "./be-let.js"
+  },
+  "files": [
+    "*.*"
+  ],
+  "types": "types.d.ts",
+  "keywords": [
+    "web-components",
+    "custom-elements"
+  ],
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "package-check": "package-check",
+    "serve": "node node_modules/may-it-serve/serve.js"
+  },
+  "dependencies": {
+    "be-watching": "0.0.2",
+    "be-hive": "0.0.68"
+  },
+  "devDependencies": {
+    "may-it-serve": "0.0.2",
+    "@skypack/package-check": "0.2.2",
+    "@custom-elements-manifest/analyzer": "0.6.4"
   },
   "repository": {
     "type": "git",

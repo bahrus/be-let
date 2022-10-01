@@ -1,4 +1,4 @@
-# be-let
+# be-let [TODO]
 
 *be-let* turns a section of HTML into tiny unnamed islands of interactivity -- is-lets (get it?).
 
