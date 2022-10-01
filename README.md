@@ -2,7 +2,7 @@
 
 *be-let* turns a section of HTML into tiny unnamed islands of interactivity -- is-lets (get it?).
 
-To make it happen, developers can create reusable "scriptlets" similar in concept to this [stranded technology](https://learn.microsoft.com/en-us/previous-versions/office/developer/office2000/aa189871(v=office.10)?redirectedfrom=MSDN) that conceptually should be easy to formalize to an element decorator / behavior or even a web component should the needs arise (solidifying requirements, reusable )
+To make it happen, developers can create reusable "scriptlets" similar in concept to this [stranded technology](https://learn.microsoft.com/en-us/previous-versions/office/developer/office2000/aa189871(v=office.10)?redirectedfrom=MSDN). Then, as time permits, it should be easy to formalize the scriptlet into to an element decorator / behavior or even a web component should the needs arise (solidifying requirements, reusable )
 
 It's also kind of like jquery via script tags (but admittedly a little more verbose)
 
@@ -51,7 +51,7 @@ It is shorthand for:
     "for": "itempropAttrs",
     "scope": ["upSearch", ":not(script)"],
 }'>
-  export const Scriptlet = class extends EventTarget {
+  export const Scriptlet = class {
     async do({target, added, value, scope}){
         console.log(target, added, value, scope);
         target.contentEditable = added;
@@ -68,12 +68,12 @@ It is shorthand for:
 
 ```html
 <script nomodule be-let=contenteditableAs>
-    #abortController;
+    #abortController = new AbortController();
     //=>
     if(added){
       target.addEventListener('input', e => {
         scope[value] = target.localName === 'a' ? target.href : target.textContent;
-      }, {signal: #abortController})
+      }, {signal: #abortController.signal})
     }else{
       #abortController.abort();
     }
@@ -88,15 +88,15 @@ shorthand for
     "for": "contenteditableAs",
     "scope": ["upSearch", ":not(script)"],
 }'>
-  export const Scriptlet = class extends EventTarget {
-    #abortController;
-    do({target, added, value, scope}){
+  export const Scriptlet = class{
+    #abortController = new AbortController;
+    async do({target, added, value, scope}){
         if(added){
             target.addEventListener('input', e => {
                 scope[value] = target.localName === 'a' ? target.href : target.textContent;
-            }, {signal: #abortController})
+            }, {signal: this.#abortController.signal})
         }else{
-            #abortController.abort();
+            this.#abortController.abort();
         }
     };
   }
