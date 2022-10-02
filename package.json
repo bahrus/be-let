@@ -25,6 +25,7 @@
     "be-watching": "0.0.5",
     "be-hive": "0.0.70",
     "be-decorated": "0.0.165",
+    "be-scoping": "0.0.2",
     "trans-render": "0.0.618"
   },
   "devDependencies": {

@@ -5,13 +5,32 @@ import {BeWatching, virtualProps, actions as BeWatchingActions} from 'be-watchin
 
 export class BeLet extends BeWatching implements Actions{
 
-    async onBeScoping({self, beScoping}: PP){
+    async onBeScoping({self, beScoping, proxy}: PP){
         const {findRealm} = await import('trans-render/lib/findRealm.js');
-        const el = await findRealm(self, beScoping);
-        console.log({el});
+        const el = await findRealm(self, beScoping) as Element;
+        proxy.scope = (<any>el).beDecorated?.scoping?.scope;
+        if(proxy.scope === undefined){
+            el.addEventListener('be-decorated.scoping.resolved', e => {
+                proxy.scope = (<any>el).beDecorated?.scoping?.scope;
+            }, {once: true});
+            import('be-scoping/be-scoping.js');
+            if(!el.matches('[be-scoping],[data-be-scoping],[is-scoping][data-is-scoping]')){
+                el.setAttribute('be-scoping', '');
+            }
+            
+        }
 
     }
 
+    async hookUp({proxy}: PP){
+        
+    }
+
+    handleNode(pp: PP, node: Node, added?: boolean){
+
+    }
+    #addedNodeQueue: Set<Node> = new Set<Node>();
+    #removedNodeQueue: Set<Node> = new Set<Node>();
     doAddedNode(pp: PP, node: Node): void | Promise<void> {
         
     }
@@ -34,17 +53,22 @@ define<Proxy & BeDecoratedProps<Proxy, Actions>, Actions>({
             ifWantsToBe,
             upgrade,
             forceVisible: [upgrade],
-            virtualProps: [...virtualProps, 'beScoping'],
+            virtualProps: [...virtualProps, 'beScoping', 'scope', 'scriptlet'],
             primaryProp: 'for',
             proxyPropDefaults:{
                 subtree: true,
                 childList: true,
-                beScoping: ['us', ':not(script)']
+                beScoping: ['us', ':not(script)'],
+                doInit: true,
+                beWatchFul: true,
             }
         },
         actions:{
             ...BeWatchingActions,
-            'onBeScoping': 'beScoping'
+            onBeScoping: 'beScoping',
+            hookUp: {
+                ifAllOf: ['scope', 'scriptlet']
+            },
         }
     },
     complexPropDefaults:{

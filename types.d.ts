@@ -8,9 +8,12 @@ import {
 
 export interface EndUserProps extends BeWatchingEndUserProps<HTMLScriptElement>{
     beScoping: Scope;
+    scriptlet: new () => Scriptlet;
 }
 
-export interface VirtualProps extends EndUserProps, BeWatchingVirtualProps<HTMLScriptElement>{}
+export interface VirtualProps extends EndUserProps, BeWatchingVirtualProps<HTMLScriptElement>{
+    scope: any;
+}
 
 export type Proxy = HTMLScriptElement & VirtualProps;
 
@@ -23,4 +26,19 @@ export type PP = ProxyProps;
 
 export interface Actions extends BeWatchingActions{
     onBeScoping(pp: PP): void;
+    hookUp(pp: PP): void;
 }
+
+export interface doArg<TElement = Element, TScope = EventTarget>{
+    target?: TElement,
+    value?: string,
+    added: boolean,
+    scope: TScope
+}
+
+export interface Scriptlet<TElement = Element, TScope = EventTarget> {
+    do(arg: doArg<TElement, TScope>): Promise<void>;
+}
+
+
+

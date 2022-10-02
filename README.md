@@ -1,6 +1,6 @@
 # be-let [TODO]
 
-*be-let* turns a section of HTML into tiny unnamed islands of interactivity -- is-lets (get it?).
+*be-let* provides a light-weight way of turning a section of HTML into tiny unnamed islands of interactivity -- is-lets (get it?).
 
 To make it happen, developers can create reusable "scriptlets" similar in concept to this [stranded technology](https://learn.microsoft.com/en-us/previous-versions/office/developer/office2000/aa189871(v=office.10)?redirectedfrom=MSDN). Then, as time permits, it should be easy to formalize the scriptlet into to an element decorator / behavior or even a web component should the needs arise (solidifying requirements, reusable )
 
