@@ -35,8 +35,10 @@ export class BeLet extends BeWatching implements Actions{
     }
 
     handleNode(pp: PP, node: Node, added: boolean){
-        const {scope} = pp;
-        const args: doArg = {target: node as Element, added, scope};
+        const {scope, queryInfo} = pp;
+        console.log({queryInfo});
+        const value = queryInfo!.match === 'A' ? (node as Element).getAttribute(queryInfo!.attrib!) : undefined;
+        const args: doArg = {target: node as Element, added, scope, value};
         this.#scriptletInstance!.do(args);
     }
     #addedNodeQueue: Set<Node> = new Set<Node>();

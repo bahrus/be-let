@@ -24,7 +24,7 @@ It's also kind of like jquery via script tags (but admittedly a little more verb
 This results in the four elements with attribute itemprop getting logged to the console.
 
 
-## Example 2 [TODO]
+## Example 2
 
 ```html
 <div itemscope itemtype="https://schema.org/Movie">
@@ -35,7 +35,6 @@ This results in the four elements with attribute itemprop getting logged to the 
   <a href="https://youtu.be/0AY1XIkX7bY" itemprop="trailer">Trailer</a>
 </div>
 <script nomodule be-let=itempropAttrs>
-    console.log(target, added, value, scope);
     target.contentEditable = added;
     scope[value] = 
       added ? 

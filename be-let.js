@@ -28,8 +28,10 @@ export class BeLet extends BeWatching {
         }
     }
     handleNode(pp, node, added) {
-        const { scope } = pp;
-        const args = { target: node, added, scope };
+        const { scope, queryInfo } = pp;
+        console.log({ queryInfo });
+        const value = queryInfo.match === 'A' ? node.getAttribute(queryInfo.attrib) : undefined;
+        const args = { target: node, added, scope, value };
         this.#scriptletInstance.do(args);
     }
     #addedNodeQueue = new Set();

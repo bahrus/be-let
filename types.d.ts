@@ -33,7 +33,7 @@ export interface Actions extends BeWatchingActions{
 
 export interface doArg<TElement = Element, TScope = EventTarget>{
     target?: TElement,
-    value?: string,
+    value?: string | null,
     added: boolean,
     scope: TScope
 }
