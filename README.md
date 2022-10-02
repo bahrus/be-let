@@ -16,7 +16,7 @@ It's also kind of like jquery via script tags (but admittedly a little more verb
       <span itemprop="genre">Science fiction</span>
       <a href="https://youtu.be/0AY1XIkX7bY" itemprop="trailer">Trailer</a>
   </div>
-  <script nomodule be-let=*[itemprop]>
+  <script nomodule be-let=[itemprop]>
       console.log(target, added);
   </script>
 ```
