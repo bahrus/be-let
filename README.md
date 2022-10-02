@@ -54,12 +54,15 @@ It is shorthand for:
     "beScoping": ["upSearch", ":not(script)"],
     "for": "itempropAttrs",
 }'>
-  export const do = async ({target, added, value, scope}) => {
-    console.log(target, added, value, scope);
-    target.contentEditable = added;
-    scope[value] = added ? 
+  export const Scriptlet = class {
+    async do ({target, added, value, scope}) => {
+      console.log(target, added, value, scope);
+      target.contentEditable = added;
+      scope[value] = added ? 
                   ('href' in target) ? target.href : target.textContent
                 : undefined;
+    }
+    
   }
 </script>
 ```

@@ -2,6 +2,7 @@ import { define } from 'be-decorated/be-decorated.js';
 import { register } from 'be-hive/register.js';
 import { BeWatching, virtualProps, actions as BeWatchingActions } from 'be-watching/be-watching.js';
 export class BeLet extends BeWatching {
+    #scriptletInstance;
     async onBeScoping({ self, beScoping, proxy }) {
         const { findRealm } = await import('trans-render/lib/findRealm.js');
         const el = await findRealm(self, beScoping);
@@ -16,13 +17,22 @@ export class BeLet extends BeWatching {
             }
         }
     }
-    async hookUp({ proxy }) {
+    async hookUp({ proxy, Scriptlet }) {
+        if (this.#scriptletInstance === undefined) {
+            this.#scriptletInstance = new Scriptlet();
+        }
     }
     handleNode(pp, node, added) {
     }
     #addedNodeQueue = new Set();
-    #removedNodeQueue = new Set();
+    //#removedNodeQueue: Set<Node> = new Set<Node>();
     doAddedNode(pp, node) {
+        if (this.#scriptletInstance === undefined) {
+            this.#addedNodeQueue.add(node);
+        }
+        else {
+            this.handleNode(pp, node, true);
+        }
     }
     doRemovedNode(pp, node) {
     }
@@ -37,7 +47,7 @@ define({
             ifWantsToBe,
             upgrade,
             forceVisible: [upgrade],
-            virtualProps: [...virtualProps, 'beScoping', 'scope', 'scriptlet'],
+            virtualProps: [...virtualProps, 'beScoping', 'scope', 'Scriptlet'],
             primaryProp: 'for',
             proxyPropDefaults: {
                 subtree: true,
@@ -51,7 +61,7 @@ define({
             ...BeWatchingActions,
             onBeScoping: 'beScoping',
             hookUp: {
-                ifAllOf: ['scope', 'scriptlet']
+                ifAllOf: ['scope', 'Scriptlet']
             },
         }
     },

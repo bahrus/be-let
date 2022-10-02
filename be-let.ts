@@ -1,10 +1,11 @@
 import {define, BeDecoratedProps } from 'be-decorated/be-decorated.js';
-import {Actions, Proxy, PP, VirtualProps, ProxyProps} from './types';
+import {Actions, Proxy, PP, VirtualProps, ProxyProps, Scriptlet} from './types';
 import {register} from 'be-hive/register.js';
 import {BeWatching, virtualProps, actions as BeWatchingActions} from 'be-watching/be-watching.js';
 
 export class BeLet extends BeWatching implements Actions{
 
+    #scriptletInstance: Scriptlet | undefined;
     async onBeScoping({self, beScoping, proxy}: PP){
         const {findRealm} = await import('trans-render/lib/findRealm.js');
         const el = await findRealm(self, beScoping) as Element;
@@ -22,17 +23,23 @@ export class BeLet extends BeWatching implements Actions{
 
     }
 
-    async hookUp({proxy}: PP){
-        
+    async hookUp({proxy, Scriptlet}: PP){
+        if(this.#scriptletInstance === undefined){
+            this.#scriptletInstance = new Scriptlet();
+        }
     }
 
     handleNode(pp: PP, node: Node, added?: boolean){
 
     }
     #addedNodeQueue: Set<Node> = new Set<Node>();
-    #removedNodeQueue: Set<Node> = new Set<Node>();
+    //#removedNodeQueue: Set<Node> = new Set<Node>();
     doAddedNode(pp: PP, node: Node): void | Promise<void> {
-        
+        if(this.#scriptletInstance === undefined){
+            this.#addedNodeQueue.add(node);
+        }else{
+            this.handleNode(pp, node, true);
+        }
     }
 
     doRemovedNode(pp: PP, node: Node): void | Promise<void> {
@@ -53,7 +60,7 @@ define<Proxy & BeDecoratedProps<Proxy, Actions>, Actions>({
             ifWantsToBe,
             upgrade,
             forceVisible: [upgrade],
-            virtualProps: [...virtualProps, 'beScoping', 'scope', 'scriptlet'],
+            virtualProps: [...virtualProps, 'beScoping', 'scope', 'Scriptlet'],
             primaryProp: 'for',
             proxyPropDefaults:{
                 subtree: true,
@@ -67,7 +74,7 @@ define<Proxy & BeDecoratedProps<Proxy, Actions>, Actions>({
             ...BeWatchingActions,
             onBeScoping: 'beScoping',
             hookUp: {
-                ifAllOf: ['scope', 'scriptlet']
+                ifAllOf: ['scope', 'Scriptlet']
             },
         }
     },

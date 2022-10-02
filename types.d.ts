@@ -8,7 +8,7 @@ import {
 
 export interface EndUserProps extends BeWatchingEndUserProps<HTMLScriptElement>{
     beScoping: Scope;
-    scriptlet: new () => Scriptlet;
+    Scriptlet: new () => Scriptlet;
 }
 
 export interface VirtualProps extends EndUserProps, BeWatchingVirtualProps<HTMLScriptElement>{
