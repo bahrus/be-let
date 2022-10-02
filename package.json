@@ -22,7 +22,7 @@
     "serve": "node node_modules/may-it-serve/serve.js"
   },
   "dependencies": {
-    "be-watching": "0.0.5",
+    "be-watching": "0.0.7",
     "be-hive": "0.0.70",
     "be-decorated": "0.0.165",
     "be-exportable": "0.0.37",

@@ -59,15 +59,16 @@ export class BeLet extends BeWatching implements Actions{
 
     importSymbols(pp: PP): void {
         const {self, nameOfScriptlet} = pp;
-        const inner = self.innerHTML.trim();
+        let inner = self.innerHTML.trim();
         if(inner.indexOf('class ') === -1){
-            const str = `
+            inner = `
 export const ${nameOfScriptlet} = class {
-    do({target, added, value, scope}) => {
+    do({target, added, value, scope}){
         ${inner}
     }
 }
             `
+
         }
         self.innerHTML = inner;
         if((self as any)._modExport){
@@ -112,6 +113,7 @@ define<Proxy & BeDecoratedProps<Proxy, Actions>, Actions>({
                 subtree: true,
                 childList: true,
                 beScoping: ['us', ':not(script)'],
+                target: ['us', ':not(script)'],
                 doInit: true,
                 beWatchFul: true,
                 nameOfScriptlet: 'Scriptlet'

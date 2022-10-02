@@ -52,11 +52,11 @@ export class BeLet extends BeWatching {
     }
     importSymbols(pp) {
         const { self, nameOfScriptlet } = pp;
-        const inner = self.innerHTML.trim();
+        let inner = self.innerHTML.trim();
         if (inner.indexOf('class ') === -1) {
-            const str = `
+            inner = `
 export const ${nameOfScriptlet} = class {
-    do({target, added, value, scope}) => {
+    do({target, added, value, scope}){
         ${inner}
     }
 }
@@ -97,6 +97,7 @@ define({
                 subtree: true,
                 childList: true,
                 beScoping: ['us', ':not(script)'],
+                target: ['us', ':not(script)'],
                 doInit: true,
                 beWatchFul: true,
                 nameOfScriptlet: 'Scriptlet'
