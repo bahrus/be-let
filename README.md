@@ -67,7 +67,6 @@ It is shorthand for:
 }'>
   export const Scriptlet = class {
     async do ({target, added, value, scope}) => {
-      console.log(target, added, value, scope);
       target.contentEditable = added;
       scope[value] = added ? 
                   ('href' in target) ? target.href : target.textContent
@@ -78,11 +77,11 @@ It is shorthand for:
 </script>
 ```
 
-## Example 2: [TODO]
+## Example 3: [TODO]
 
 ```html
 <script nomodule be-let='{
-  "for": "contenteditableAs",
+  "for": "itempropAs",
   "on": "input",
 }'>
     scope[value] = ('href' in target) === 'a' ? target.href : target.textContent;
@@ -98,15 +97,23 @@ shorthand for
 }'>
   export const Scriptlet = class{
     #abortController = new AbortController;
-    async do({target, added, value, scope}){
+    async on({target, added, value, scope}){
         if(added){
             target.addEventListener('input', e => {
-                scope[value] = target.localName === 'a' ? target.href : target.textContent;
+                scope[value] = added ? 
+                  ('href' in target) ? target.href : target.textContent
+                : undefined;
             }, {signal: this.#abortController.signal})
         }else{
             this.#abortController.abort();
         }
     };
+
+    async do ({target, added, value, scope}) => {
+      scope[value] = added ? 
+                  ('href' in target) ? target.href : target.textContent
+                : undefined;
+    }
   }
 
 </script>
