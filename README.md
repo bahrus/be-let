@@ -129,11 +129,17 @@ Very similar to be-calculated
 
 ```html
 <script nomodule be-let='{
-  "args": ["name", "director"],
+  "scopeArgs": ["name", "director"],
 }'>
     //do some async / await lookup
     scope[criticScore] = fetchResult;
 </script>
 ```
+
+Q.  How do we prevent thinking we can combine the two together?
+
+Shorthand for:
+
+
 
 
