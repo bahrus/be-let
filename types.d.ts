@@ -3,6 +3,7 @@ import {Scope} from 'trans-render/lib/types';
 import {
     EndUserProps as BeWatchingEndUserProps,
     VirtualProps as BeWatchingVirtualProps,
+    Actions as BeWatchingActions,
 } from 'be-watching/types';
 
 export interface EndUserProps extends BeWatchingEndUserProps{
@@ -20,6 +21,6 @@ export interface ProxyProps extends VirtualProps{
 export type PP = ProxyProps;
 
 
-export interface Actions{
+export interface Actions extends BeWatchingActions{
     onBeScoping(pp: PP): void;
 }

@@ -5,8 +5,10 @@ import {BeWatching, virtualProps, actions as BeWatchingActions} from 'be-watchin
 
 export class BeLet extends BeWatching implements Actions{
 
-    onBeScoping(pp: PP): void {
-        const {} = await import('trans-render/lib/beScoping.')
+    async onBeScoping({self, beScoping}: PP){
+        const {findRealm} = await import('trans-render/lib/findRealm.js');
+        const el = findRealm(self, beScoping);
+
     }
 
     doAddedNode(pp: PP, node: Node): void | Promise<void> {
