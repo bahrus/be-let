@@ -22,8 +22,10 @@
     "serve": "node node_modules/may-it-serve/serve.js"
   },
   "dependencies": {
-    "be-watching": "0.0.4",
-    "be-hive": "0.0.70"
+    "be-watching": "0.0.5",
+    "be-hive": "0.0.70",
+    "be-decorated": "0.0.165",
+    "trans-render": "0.0.618"
   },
   "devDependencies": {
     "may-it-serve": "0.0.2",

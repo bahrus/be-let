@@ -7,7 +7,8 @@ export class BeLet extends BeWatching implements Actions{
 
     async onBeScoping({self, beScoping}: PP){
         const {findRealm} = await import('trans-render/lib/findRealm.js');
-        const el = findRealm(self, beScoping);
+        const el = await findRealm(self, beScoping);
+        console.log({el});
 
     }
 
@@ -34,7 +35,7 @@ define<Proxy & BeDecoratedProps<Proxy, Actions>, Actions>({
             upgrade,
             forceVisible: [upgrade],
             virtualProps: [...virtualProps, 'beScoping'],
-            //primaryProp:
+            primaryProp: 'for',
             proxyPropDefaults:{
                 subtree: true,
                 childList: true,
@@ -42,7 +43,8 @@ define<Proxy & BeDecoratedProps<Proxy, Actions>, Actions>({
             }
         },
         actions:{
-            ...BeWatchingActions
+            ...BeWatchingActions,
+            'onBeScoping': 'beScoping'
         }
     },
     complexPropDefaults:{

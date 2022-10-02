@@ -4,7 +4,8 @@ import { BeWatching, virtualProps, actions as BeWatchingActions } from 'be-watch
 export class BeLet extends BeWatching {
     async onBeScoping({ self, beScoping }) {
         const { findRealm } = await import('trans-render/lib/findRealm.js');
-        const el = findRealm(self, beScoping);
+        const el = await findRealm(self, beScoping);
+        console.log({ el });
     }
     doAddedNode(pp, node) {
     }
@@ -22,7 +23,7 @@ define({
             upgrade,
             forceVisible: [upgrade],
             virtualProps: [...virtualProps, 'beScoping'],
-            //primaryProp:
+            primaryProp: 'for',
             proxyPropDefaults: {
                 subtree: true,
                 childList: true,
@@ -30,7 +31,8 @@ define({
             }
         },
         actions: {
-            ...BeWatchingActions
+            ...BeWatchingActions,
+            'onBeScoping': 'beScoping'
         }
     },
     complexPropDefaults: {

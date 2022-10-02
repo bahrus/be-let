@@ -6,13 +6,13 @@ import {
     Actions as BeWatchingActions,
 } from 'be-watching/types';
 
-export interface EndUserProps extends BeWatchingEndUserProps{
+export interface EndUserProps extends BeWatchingEndUserProps<HTMLScriptElement>{
     beScoping: Scope;
 }
 
-export interface VirtualProps extends EndUserProps, BeWatchingVirtualProps{}
+export interface VirtualProps extends EndUserProps, BeWatchingVirtualProps<HTMLScriptElement>{}
 
-export type Proxy = Element & VirtualProps;
+export type Proxy = HTMLScriptElement & VirtualProps;
 
 export interface ProxyProps extends VirtualProps{
     proxy: Proxy;
