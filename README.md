@@ -6,7 +6,7 @@ To make it happen, developers can create reusable "scriptlets" similar in concep
 
 It's also kind of like jquery via script tags (but admittedly a little more verbose)
 
-## Example 1 [TODO]
+## Example 2 [TODO]
 
 ```html
 <div itemscope itemtype="https://schema.org/Movie">
@@ -71,7 +71,7 @@ It is shorthand for:
   "for": "contenteditableAs",
   "on": "input",
 }'>
-    scope[value] = target.localName === 'a' ? target.href : target.textContent;
+    scope[value] = ('href' in target) === 'a' ? target.href : target.textContent;
 </script>
 ```
 
