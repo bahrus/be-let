@@ -79,6 +79,8 @@ It is shorthand for:
 
 ## Example 3: [TODO]
 
+Often times we need to do something on initialization, and then anytime an event is fired.  be-let can help with this scenario:
+
 ```html
 <script nomodule be-let='{
   "for": "itempropAs",
@@ -97,12 +99,10 @@ shorthand for
 }'>
   export const Scriptlet = class{
     #abortController = new AbortController;
-    async on({target, added, value, scope}){
+    async init(ctx){
         if(added){
             target.addEventListener('input', e => {
-                scope[value] = added ? 
-                  ('href' in target) ? target.href : target.textContent
-                : undefined;
+                this.do(ctx);
             }, {signal: this.#abortController.signal})
         }else{
             this.#abortController.abort();
@@ -114,17 +114,26 @@ shorthand for
                   ('href' in target) ? target.href : target.textContent
                 : undefined;
     }
+
+    async dispose(){
+      this.#abortController.abort();
+    }
   }
 
 </script>
 ```
 
-## Example 3 [TODO]
+## Example 4 Computed props
 
-transforms:
+Very similar to be-calculated
 
-1)  If do returns an object, assume it is a transform on the scoping element
+```html
+<script nomodule be-let='{
+  "args": ["name", "director"],
+}'>
+    //do some async / await lookup
+    scope[criticScore] = fetchResult;
+</script>
+```
 
-2)  allow a transform to be "hardcoded" in the json attribute as well.
 
-3)  host of transform is the scope object
