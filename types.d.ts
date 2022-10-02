@@ -9,6 +9,7 @@ import {
 export interface EndUserProps extends BeWatchingEndUserProps<HTMLScriptElement>{
     beScoping: Scope;
     Scriptlet: new () => Scriptlet;
+    nameOfScriptlet: string;
 }
 
 export interface VirtualProps extends EndUserProps, BeWatchingVirtualProps<HTMLScriptElement>{
@@ -27,6 +28,7 @@ export type PP = ProxyProps;
 export interface Actions extends BeWatchingActions{
     onBeScoping(pp: PP): void;
     hookUp(pp: PP): void;
+    importSymbols(pp: PP): void;
 }
 
 export interface doArg<TElement = Element, TScope = EventTarget>{

@@ -15,7 +15,7 @@ export class BeLet extends BeWatching implements Actions{
                 proxy.scope = (<any>el).beDecorated?.scoping?.scope;
             }, {once: true});
             import('be-scoping/be-scoping.js');
-            if(!el.matches('[be-scoping],[data-be-scoping],[is-scoping][data-is-scoping]')){
+            if(!el.matches('[be-scoping],[data-be-scoping],[is-scoping],[data-is-scoping]')){
                 el.setAttribute('be-scoping', '');
             }
             
@@ -56,6 +56,38 @@ export class BeLet extends BeWatching implements Actions{
             this.handleNode(pp, node, false);
         }
     }
+
+    importSymbols(pp: PP): void {
+        const {self, nameOfScriptlet} = pp;
+        const inner = self.innerHTML.trim();
+        if(inner.indexOf('class ') === -1){
+            const str = `
+export const ${nameOfScriptlet} = class {
+    do({target, added, value, scope}) => {
+        ${inner}
+    }
+}
+            `
+        }
+        self.innerHTML = inner;
+        if((self as any)._modExport){
+            this.assignScriptToProxy(pp)
+        }else{
+            self.addEventListener('load', e =>{
+                this.assignScriptToProxy(pp);
+            }, {once: true});
+            self.setAttribute('be-exportable', '');
+            import('be-exportable/be-exportable.js');
+        }
+        
+
+    }
+
+    assignScriptToProxy({nameOfScriptlet, proxy, self}: PP){
+        proxy.Scriptlet = (self as any)._modExport[nameOfScriptlet];
+    }
+    
+    
 }
 
 const tagName = 'be-let';
@@ -71,7 +103,10 @@ define<Proxy & BeDecoratedProps<Proxy, Actions>, Actions>({
             ifWantsToBe,
             upgrade,
             forceVisible: [upgrade],
-            virtualProps: [...virtualProps, 'beScoping', 'scope', 'Scriptlet'],
+            virtualProps: [
+                ...virtualProps, 'beScoping', 'scope', 'Scriptlet',
+                'nameOfScriptlet'
+            ],
             primaryProp: 'for',
             proxyPropDefaults:{
                 subtree: true,
@@ -79,6 +114,7 @@ define<Proxy & BeDecoratedProps<Proxy, Actions>, Actions>({
                 beScoping: ['us', ':not(script)'],
                 doInit: true,
                 beWatchFul: true,
+                nameOfScriptlet: 'Scriptlet'
             }
         },
         actions:{
@@ -87,6 +123,7 @@ define<Proxy & BeDecoratedProps<Proxy, Actions>, Actions>({
             hookUp: {
                 ifAllOf: ['scope', 'Scriptlet']
             },
+            importSymbols: 'nameOfScriptlet'
         }
     },
     complexPropDefaults:{

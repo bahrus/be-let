@@ -12,7 +12,7 @@ export class BeLet extends BeWatching {
                 proxy.scope = el.beDecorated?.scoping?.scope;
             }, { once: true });
             import('be-scoping/be-scoping.js');
-            if (!el.matches('[be-scoping],[data-be-scoping],[is-scoping][data-is-scoping]')) {
+            if (!el.matches('[be-scoping],[data-be-scoping],[is-scoping],[data-is-scoping]')) {
                 el.setAttribute('be-scoping', '');
             }
         }
@@ -50,6 +50,33 @@ export class BeLet extends BeWatching {
             this.handleNode(pp, node, false);
         }
     }
+    importSymbols(pp) {
+        const { self, nameOfScriptlet } = pp;
+        const inner = self.innerHTML.trim();
+        if (inner.indexOf('class ') === -1) {
+            const str = `
+export const ${nameOfScriptlet} = class {
+    do({target, added, value, scope}) => {
+        ${inner}
+    }
+}
+            `;
+        }
+        self.innerHTML = inner;
+        if (self._modExport) {
+            this.assignScriptToProxy(pp);
+        }
+        else {
+            self.addEventListener('load', e => {
+                this.assignScriptToProxy(pp);
+            }, { once: true });
+            self.setAttribute('be-exportable', '');
+            import('be-exportable/be-exportable.js');
+        }
+    }
+    assignScriptToProxy({ nameOfScriptlet, proxy, self }) {
+        proxy.Scriptlet = self._modExport[nameOfScriptlet];
+    }
 }
 const tagName = 'be-let';
 const ifWantsToBe = 'let';
@@ -61,7 +88,10 @@ define({
             ifWantsToBe,
             upgrade,
             forceVisible: [upgrade],
-            virtualProps: [...virtualProps, 'beScoping', 'scope', 'Scriptlet'],
+            virtualProps: [
+                ...virtualProps, 'beScoping', 'scope', 'Scriptlet',
+                'nameOfScriptlet'
+            ],
             primaryProp: 'for',
             proxyPropDefaults: {
                 subtree: true,
@@ -69,6 +99,7 @@ define({
                 beScoping: ['us', ':not(script)'],
                 doInit: true,
                 beWatchFul: true,
+                nameOfScriptlet: 'Scriptlet'
             }
         },
         actions: {
@@ -77,6 +108,7 @@ define({
             hookUp: {
                 ifAllOf: ['scope', 'Scriptlet']
             },
+            importSymbols: 'nameOfScriptlet'
         }
     },
     complexPropDefaults: {
