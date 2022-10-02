@@ -17,12 +17,20 @@ export class BeLet extends BeWatching {
             }
         }
     }
-    async hookUp({ proxy, Scriptlet }) {
+    async hookUp(pp) {
+        const { proxy, Scriptlet } = pp;
         if (this.#scriptletInstance === undefined) {
             this.#scriptletInstance = new Scriptlet();
         }
+        const nodeQueue = Array.from(this.#addedNodeQueue);
+        for (const node of nodeQueue) {
+            this.handleNode(pp, node, true);
+        }
     }
     handleNode(pp, node, added) {
+        const { scope } = pp;
+        const args = { target: node, added, scope };
+        this.#scriptletInstance.do(args);
     }
     #addedNodeQueue = new Set();
     //#removedNodeQueue: Set<Node> = new Set<Node>();
@@ -35,6 +43,12 @@ export class BeLet extends BeWatching {
         }
     }
     doRemovedNode(pp, node) {
+        if (this.#scriptletInstance === undefined) {
+            this.#addedNodeQueue.delete(node);
+        }
+        else {
+            this.handleNode(pp, node, false);
+        }
     }
 }
 const tagName = 'be-let';

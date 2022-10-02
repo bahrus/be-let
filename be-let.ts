@@ -1,5 +1,5 @@
 import {define, BeDecoratedProps } from 'be-decorated/be-decorated.js';
-import {Actions, Proxy, PP, VirtualProps, ProxyProps, Scriptlet} from './types';
+import {Actions, Proxy, PP, VirtualProps, ProxyProps, Scriptlet, doArg} from './types';
 import {register} from 'be-hive/register.js';
 import {BeWatching, virtualProps, actions as BeWatchingActions} from 'be-watching/be-watching.js';
 
@@ -23,14 +23,21 @@ export class BeLet extends BeWatching implements Actions{
 
     }
 
-    async hookUp({proxy, Scriptlet}: PP){
+    async hookUp(pp: PP){
+        const {proxy, Scriptlet} = pp;
         if(this.#scriptletInstance === undefined){
             this.#scriptletInstance = new Scriptlet();
         }
+        const nodeQueue = Array.from(this.#addedNodeQueue);
+        for(const node of nodeQueue){
+            this.handleNode(pp, node, true);
+        }
     }
 
-    handleNode(pp: PP, node: Node, added?: boolean){
-
+    handleNode(pp: PP, node: Node, added: boolean){
+        const {scope} = pp;
+        const args: doArg = {target: node as Element, added, scope};
+        this.#scriptletInstance!.do(args);
     }
     #addedNodeQueue: Set<Node> = new Set<Node>();
     //#removedNodeQueue: Set<Node> = new Set<Node>();
@@ -43,7 +50,11 @@ export class BeLet extends BeWatching implements Actions{
     }
 
     doRemovedNode(pp: PP, node: Node): void | Promise<void> {
-        
+        if(this.#scriptletInstance === undefined){
+            this.#addedNodeQueue.delete(node);
+        }else{
+            this.handleNode(pp, node, false);
+        }
     }
 }
 
