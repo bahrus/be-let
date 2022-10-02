@@ -4,7 +4,26 @@
 
 To make it happen, developers can create reusable "scriptlets" similar in concept to this [stranded technology](https://learn.microsoft.com/en-us/previous-versions/office/developer/office2000/aa189871(v=office.10)?redirectedfrom=MSDN). Then, as time permits, it should be easy to formalize the scriptlet into an element decorator / behavior or even a web component should the needs arise (solidifying requirements, reusable )
 
-It's also kind of like jquery via script tags (but admittedly a little more verbose)
+It's also kind of like jquery via script tags (but admittedly a little more verbose).
+
+## Example 1
+
+```html
+  <div itemscope itemtype="https://schema.org/Movie">
+      <h1 itemprop="name">Avatar</h1>
+      <span>Director: <span itemprop="director">James Cameron</span> (born August 16,
+          1954)</span>
+      <span itemprop="genre">Science fiction</span>
+      <a href="https://youtu.be/0AY1XIkX7bY" itemprop="trailer">Trailer</a>
+  </div>
+  <script nomodule be-let=*[itemprop]>
+      console.log(target, added);
+  </script>
+```
+
+This results in four elements with attribute itemprop to the console.
+
+
 
 ## Example 2 [TODO]
 
