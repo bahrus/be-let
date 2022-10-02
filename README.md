@@ -21,8 +21,7 @@ It's also kind of like jquery via script tags (but admittedly a little more verb
   </script>
 ```
 
-This results in four elements with attribute itemprop to the console.
-
+This results in the four elements with attribute itemprop getting logged to the console.
 
 
 ## Example 2 [TODO]
