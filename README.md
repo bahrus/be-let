@@ -45,12 +45,6 @@ This results in the four elements with attribute itemprop getting logged to the 
 </script>
 ```
 
-Does the following:
-
-Logs elements with attribute itemprop. "added" will be true always in this example. 
-
-value is the value of the attribute.
-
 scope is an ES6 proxy / Event target that is associated with the div element.  Can have multiple be-let / is-let script tags attached to the same div element, and the scope proxy is shared between them.  Unlike AngularJS, no inheritance of scope.  But might be possible to get some compositional chain, will see.  Anyway, scope ends up with value:
 
 ```JavaScript
