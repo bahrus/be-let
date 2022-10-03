@@ -6,14 +6,14 @@ export class BeLet extends BeWatching {
     async onBeScoping({ self, beScoping, proxy }) {
         const { findRealm } = await import('trans-render/lib/findRealm.js');
         const el = await findRealm(self, beScoping);
-        proxy.scope = el.beDecorated?.scoping?.scope;
+        proxy.scope = el.beDecorated?.scoped?.scope;
         if (proxy.scope === undefined) {
-            el.addEventListener('be-decorated.scoping.resolved', e => {
-                proxy.scope = el.beDecorated?.scoping?.scope;
+            el.addEventListener('be-decorated.scoped.resolved', e => {
+                proxy.scope = el.beDecorated?.scoped?.scope;
             }, { once: true });
-            import('be-scoping/be-scoping.js');
-            if (!el.matches('[be-scoping],[data-be-scoping],[is-scoping],[data-is-scoping]')) {
-                el.setAttribute('be-scoping', '');
+            import('be-scoped/be-scoped.js');
+            if (!el.matches('[be-scoped],[data-be-scoped],[is-scoped],[data-is-scoped]')) {
+                el.setAttribute('be-scoped', '');
             }
         }
     }

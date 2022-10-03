@@ -1,5 +1,5 @@
 import {BeDecoratedProps, MinimalProxy} from 'be-decorated/types';
-import {Scope} from 'trans-render/lib/types';
+import {Target} from 'trans-render/lib/types';
 import {
     EndUserProps as BeWatchingEndUserProps,
     VirtualProps as BeWatchingVirtualProps,
@@ -7,7 +7,7 @@ import {
 } from 'be-watching/types';
 
 export interface EndUserProps extends BeWatchingEndUserProps<HTMLScriptElement>{
-    beScoping: Scope;
+    beScoping: Target;
     Scriptlet: new () => Scriptlet;
     nameOfScriptlet: string;
 }

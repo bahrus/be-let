@@ -26,7 +26,7 @@
     "be-hive": "0.0.70",
     "be-decorated": "0.0.165",
     "be-exportable": "0.0.37",
-    "be-scoping": "0.0.2",
+    "be-scoped": "0.0.1",
     "trans-render": "0.0.618"
   },
   "devDependencies": {

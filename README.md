@@ -79,7 +79,7 @@ It is shorthand for:
 
 ## Example 3: [TODO]
 
-Often times we need to do something on initialization, and then anytime an event is fired.  be-let can help with this scenario:
+Often times we need to do something on initialization, and then the same thing anytime an event is fired.  be-let can help with this scenario:
 
 ```html
 <script nomodule be-let='{
