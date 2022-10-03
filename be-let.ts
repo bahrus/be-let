@@ -6,9 +6,9 @@ import {BeWatching, virtualProps, actions as BeWatchingActions} from 'be-watchin
 export class BeLet extends BeWatching implements Actions{
 
     #scriptletInstance: Scriptlet | undefined;
-    async onBeScoping({self, beScoping, proxy}: PP){
+    async onBeScoping({self, scopeTarget, proxy}: PP){
         const {findRealm} = await import('trans-render/lib/findRealm.js');
-        const el = await findRealm(self, beScoping) as Element;
+        const el = await findRealm(self, scopeTarget) as Element;
         proxy.scope = (<any>el).beDecorated?.scoped?.scope;
         if(proxy.scope === undefined){
             el.addEventListener('be-decorated.scoped.resolved', e => {
@@ -107,14 +107,14 @@ define<Proxy & BeDecoratedProps<Proxy, Actions>, Actions>({
             upgrade,
             forceVisible: [upgrade],
             virtualProps: [
-                ...virtualProps, 'beScoping', 'scope', 'Scriptlet',
+                ...virtualProps, 'scopeTarget', 'scope', 'Scriptlet',
                 'nameOfScriptlet'
             ],
             primaryProp: 'for',
             proxyPropDefaults:{
                 subtree: true,
                 childList: true,
-                beScoping: ['us', ':not(script)'],
+                scopeTarget: ['us', ':not(script)'],
                 target: ['us', ':not(script)'],
                 doInit: true,
                 beWatchFul: true,
@@ -123,7 +123,7 @@ define<Proxy & BeDecoratedProps<Proxy, Actions>, Actions>({
         },
         actions:{
             ...BeWatchingActions,
-            onBeScoping: 'beScoping',
+            onBeScoping: 'scopeTarget',
             hookUp: {
                 ifAllOf: ['scope', 'Scriptlet']
             },

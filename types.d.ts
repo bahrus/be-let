@@ -7,7 +7,7 @@ import {
 } from 'be-watching/types';
 
 export interface EndUserProps extends BeWatchingEndUserProps<HTMLScriptElement>{
-    beScoping: Target;
+    scopeTarget: Target;
     Scriptlet: new () => Scriptlet;
     nameOfScriptlet: string;
 }

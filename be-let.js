@@ -3,9 +3,9 @@ import { register } from 'be-hive/register.js';
 import { BeWatching, virtualProps, actions as BeWatchingActions } from 'be-watching/be-watching.js';
 export class BeLet extends BeWatching {
     #scriptletInstance;
-    async onBeScoping({ self, beScoping, proxy }) {
+    async onBeScoping({ self, scopeTarget, proxy }) {
         const { findRealm } = await import('trans-render/lib/findRealm.js');
-        const el = await findRealm(self, beScoping);
+        const el = await findRealm(self, scopeTarget);
         proxy.scope = el.beDecorated?.scoped?.scope;
         if (proxy.scope === undefined) {
             el.addEventListener('be-decorated.scoped.resolved', e => {
@@ -91,14 +91,14 @@ define({
             upgrade,
             forceVisible: [upgrade],
             virtualProps: [
-                ...virtualProps, 'beScoping', 'scope', 'Scriptlet',
+                ...virtualProps, 'scopeTarget', 'scope', 'Scriptlet',
                 'nameOfScriptlet'
             ],
             primaryProp: 'for',
             proxyPropDefaults: {
                 subtree: true,
                 childList: true,
-                beScoping: ['us', ':not(script)'],
+                scopeTarget: ['us', ':not(script)'],
                 target: ['us', ':not(script)'],
                 doInit: true,
                 beWatchFul: true,
@@ -107,7 +107,7 @@ define({
         },
         actions: {
             ...BeWatchingActions,
-            onBeScoping: 'beScoping',
+            onBeScoping: 'scopeTarget',
             hookUp: {
                 ifAllOf: ['scope', 'Scriptlet']
             },
