@@ -35,13 +35,8 @@ This results in the four elements with attribute itemprop getting logged to the 
   <a href="https://youtu.be/0AY1XIkX7bY" itemprop="trailer">Trailer</a>
 </div>
 <script nomodule be-let=itempropAttrs>
-    target.contentEditable = added;
-    scope[value] = 
-      added ? 
-          ('href' in target) ? 
-            target.href 
-            : target.textContent
-      : undefined;
+    target.contentEditable = true;
+    scope[value] = ('href' in target) ? target.href : target.textContent
 </script>
 ```
 
@@ -55,7 +50,6 @@ scope is an ES6 proxy / Event target that is associated with the div element.  C
     trailer: 'https://youtu.be/0AY1XIkX7bY'
 }
 ```
-
 
 
 It is shorthand for:
@@ -77,7 +71,33 @@ It is shorthand for:
 </script>
 ```
 
-## Example 3: [TODO]
+## Example 3:  [TODO]
+
+```html
+<div itemscope itemtype="https://schema.org/Movie">
+  <h1 itemprop="name">Avatar</h1>
+  <span>Director: <span itemprop="director">James Cameron</span> (born August 16,
+    1954)</span>
+  <span itemprop="genre">Science fiction</span>
+  <a href="https://youtu.be/0AY1XIkX7bY" itemprop="trailer">Trailer</a>
+</div>
+<script nomodule be-let=itempropAttrs>
+  {
+    target: {contentEditable: true},
+    scope: {
+      value: ('href' in target) ? target.href : target.textContent
+    }
+  }
+</script>
+```
+
+Why?  
+
+1.  If updating lots of things, the verbosity slightly slower.  
+2.  When writing out the explicit class in a separate js file, can be more library neutral / easier to test.
+3.  At least in this case, the target transform could become a JSON property of the be-let attribute (basically make it a transform on self).
+
+## Example 4: [TODO]
 
 Often times we need to do something on initialization, and then the same thing anytime an event is fired.  be-let can help with this scenario:
 
