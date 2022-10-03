@@ -3,7 +3,7 @@ import { register } from 'be-hive/register.js';
 import { BeWatching, virtualProps, actions as BeWatchingActions } from 'be-watching/be-watching.js';
 export class BeLet extends BeWatching {
     #scriptletInstance;
-    async onBeScoping({ self, scopeTarget, proxy }) {
+    async onScopeTarget({ self, scopeTarget, proxy }) {
         const { findRealm } = await import('trans-render/lib/findRealm.js');
         const el = await findRealm(self, scopeTarget);
         proxy.scope = el.beDecorated?.scoped?.scope;
@@ -107,7 +107,7 @@ define({
         },
         actions: {
             ...BeWatchingActions,
-            onBeScoping: 'scopeTarget',
+            onScopeTarget: 'scopeTarget',
             hookUp: {
                 ifAllOf: ['scope', 'Scriptlet']
             },

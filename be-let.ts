@@ -6,7 +6,7 @@ import {BeWatching, virtualProps, actions as BeWatchingActions} from 'be-watchin
 export class BeLet extends BeWatching implements Actions{
 
     #scriptletInstance: Scriptlet | undefined;
-    async onBeScoping({self, scopeTarget, proxy}: PP){
+    async onScopeTarget({self, scopeTarget, proxy}: PP){
         const {findRealm} = await import('trans-render/lib/findRealm.js');
         const el = await findRealm(self, scopeTarget) as Element;
         proxy.scope = (<any>el).beDecorated?.scoped?.scope;
@@ -123,7 +123,7 @@ define<Proxy & BeDecoratedProps<Proxy, Actions>, Actions>({
         },
         actions:{
             ...BeWatchingActions,
-            onBeScoping: 'scopeTarget',
+            onScopeTarget: 'scopeTarget',
             hookUp: {
                 ifAllOf: ['scope', 'Scriptlet']
             },

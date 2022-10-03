@@ -26,7 +26,7 @@ export type PP = ProxyProps;
 
 
 export interface Actions extends BeWatchingActions{
-    onBeScoping(pp: PP): void;
+    onScopeTarget(pp: PP): void;
     hookUp(pp: PP): void;
     importSymbols(pp: PP): void;
 }
