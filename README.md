@@ -36,7 +36,7 @@ This results in the four elements with attribute itemprop getting logged to the 
 </div>
 <script nomodule be-let=itempropAttrs>
     target.contentEditable = true;
-    scope[value] = ('href' in target) ? target.href : target.textContent
+    scope[value] = ('href' in target) ? target.href : target.textContent;
 </script>
 ```
 
@@ -62,9 +62,7 @@ It is shorthand for:
   export const Scriptlet = class {
     async do ({target, added, value, scope}) => {
       target.contentEditable = added;
-      scope[value] = added ? 
-                  ('href' in target) ? target.href : target.textContent
-                : undefined;
+      scope[value] = ('href' in target) ? target.href : target.textContent;
     }
     
   }
@@ -82,12 +80,10 @@ It is shorthand for:
   <a href="https://youtu.be/0AY1XIkX7bY" itemprop="trailer">Trailer</a>
 </div>
 <script nomodule be-let=itempropAttrs>
-  {
-    target: {contentEditable: true},
-    scope: {
-      value: ('href' in target) ? target.href : target.textContent
-    }
-  }
+  [
+    {value: ('href' in target) ? target.href : target.textContent},
+    {contentEditable: true}
+  ]
 </script>
 ```
 
