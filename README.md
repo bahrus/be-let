@@ -44,9 +44,9 @@ In case you were wondering, be-let is *not* designed to react to modifications m
 </script>
 ```
 
-Let me rephrase that:  be-let doesn't provide any particular assistance in managing scope, but can manage scope just fine as shown above, if that is what you want.  
+Let me rephrase that:  be-let doesn't provide any particular assistance in managing scope, as far as avoiding boilerplate code, but can manage scope just fine as shown above, if writing code is your thing.  
 
-For the mirror behavior of be-let that provides more direct assisance managing scope, please see [be-scoping](https://github.com/bahrus/be-scoping)
+For the mirror behavior of be-let, that provides more direct assistance managing scope, please see [be-scoping](https://github.com/bahrus/be-scoping)
 
 
 ## Example 2
