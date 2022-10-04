@@ -34,6 +34,20 @@ In what follows, we will basically be working with that use case, but there's no
 
 This results in the four elements with attribute itemprop getting logged to the console.  It will create a shared scope object associated with the div element (empty in this example, if there are no other adjacent be-let's doing some its thing.)
 
+In case you were wondering, be-let is *not* designed to react to modifications made to the scope (although it could be done certainly):
+
+```html
+<script nomodule be-let=[itemprop]>
+    scope.addEventHandler('name", e => {
+      //this fires anytime the value of scope.name is changed.
+    });
+</script>
+```
+
+Let me rephrase that:  be-let doesn't provide any particular assistance in managing scope, but can manage scope just fine as shown above, if that is what you want.  
+
+For the mirror behavior of be-let that provides more direct assisance managing scope, please see [be-scoping](https://github.com/bahrus/be-scoping)
+
 
 ## Example 2
 
