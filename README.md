@@ -1,10 +1,21 @@
 # be-let [TODO]
 
-*be-let* provides a light-weight way of turning a section of HTML into tiny unnamed islands of interactivity -- is-lets (get it?).
+*be-let* is a [be-decorated](https://github.com/bahrus/be-decorated) HTML element behavior / decorator.
 
-To make it happen, developers can create reusable "scriptlets" similar in concept to this [stranded technology](https://learn.microsoft.com/en-us/previous-versions/office/developer/office2000/aa189871(v=office.10)?redirectedfrom=MSDN). Then, as time permits, it should be easy to formalize the scriptlet into an element decorator / behavior or even a web component should the needs arise (solidifying requirements, reusable )
+*be-let* provides a [light](https://www.wordsense.eu/let/#Danish)-[weight](https://developer.mozilla.org/en-US/docs/Web/API/Worklet) way of turning a section of HTML into tiny unnamed islands of interactivity.  As with all be-decorated element behaviors, when the attribute be-let is applied to an HTML element, the attribute switches to "is-let" after upgrading.  So we end up with lots of is-lets (get it?).
+
+To work with a be-let, developers can create reusable "scriptlets" similar in concept to this [stranded technology](https://learn.microsoft.com/en-us/previous-versions/office/developer/office2000/aa189871(v=office.10)?redirectedfrom=MSDN). Then, as time permits, it should be easy to formalize the scriptlet into an element decorator / behavior or even a web component should the needs arise (solidifying requirements, reusable), and let go of the be-let. 
 
 It's also kind of like jquery via script tags (but admittedly a little more verbose).
+
+Perhaps the most frequent use case would be in doing the following:
+
+1.  Creating a shared "scope" object that everyone can subscribe to (if another be-let hasn't gotten there first).
+2.  Adding a little, 2 or 3 line "behavior" to the elements that match some css query.
+3.  The most common behavior the scriptlet would provide is transferring information from elements the user interacts with to the shared scope object, maybe after doing a back-end lookup.
+    I.e. "let" scope.fetchResults = [result of some fetch]
+
+In what follows, we will basically be working with that use case, but there's nothing tying down be-let from going beyond this use case. 
 
 ## Example 1
 
@@ -17,11 +28,11 @@ It's also kind of like jquery via script tags (but admittedly a little more verb
       <a href="https://youtu.be/0AY1XIkX7bY" itemprop="trailer">Trailer</a>
   </div>
   <script nomodule be-let=[itemprop]>
-      console.log(target, added);
+      console.log(scope, target, added);
   </script>
 ```
 
-This results in the four elements with attribute itemprop getting logged to the console.
+This results in the four elements with attribute itemprop getting logged to the console.  It will create a shared scope object associated with the div element (empty in this example, if there are no other adjacent be-let's doing some its thing.)
 
 
 ## Example 2
