@@ -10,7 +10,7 @@ It's also kind of like jquery via script tags (but admittedly a little more verb
 
 Perhaps the most frequent use case would be in doing the following:
 
-1.  Creating a shared "scope" object that everyone can subscribe to (if another be-let hasn't gotten there first).
+1.  Automatically creating a shared "scope" object that everyone can subscribe to (if another be-let hasn't gotten there first).
 2.  Adding a little, 2 or 3 line "behavior" to the elements that match some css query.
 3.  The most common behavior the scriptlet would provide is transferring information from elements the user interacts with to the shared scope object, maybe after doing a back-end lookup.
     I.e. "let" scope.fetchResults = [result of some fetch]
@@ -34,7 +34,9 @@ In what follows, we will basically be working with that use case, but there's no
 
 This results in the four elements with attribute itemprop getting logged to the console.  It will create a shared scope object associated with the div element (empty in this example, if there are no other adjacent be-let's doing some its thing.)
 
-In case you were wondering, be-let is *not* designed to react to modifications made to the scope (although it could be done certainly):
+
+
+In case you were wondering, be-let doesn't provide any support for avoiding boilerplate when we want to react to modifications made to the scope.  But nothing is stopping us from writing code to do this:
 
 ```html
 <script nomodule be-let=[itemprop]>
@@ -44,12 +46,10 @@ In case you were wondering, be-let is *not* designed to react to modifications m
 </script>
 ```
 
-Let me rephrase that:  be-let doesn't provide any particular assistance in managing scope, as far as avoiding boilerplate code, but can manage scope just fine as shown above, if writing code is your thing.  
-
-For the mirror behavior of be-let, that provides more direct assistance managing scope, please see [be-scoping](https://github.com/bahrus/be-scoping)
+For the mirror behavior of be-let, that provides more declarative support for managing scope, please see [be-scoping](https://github.com/bahrus/be-scoping).
 
 
-## Example 2
+## Example 2 [TODO]
 
 ```html
 <div itemscope itemtype="https://schema.org/Movie">
@@ -65,7 +65,9 @@ For the mirror behavior of be-let, that provides more direct assistance managing
 </script>
 ```
 
-scope is an ES6 proxy / Event target that is associated with the div element.  Can have multiple be-let / is-let script tags attached to the same div element, and the scope proxy is shared between them.  Unlike AngularJS, no inheritance of scope.  But might be possible to get some compositional chain, will see.  Anyway, scope ends up with value:
+The value of "value" will be the values of the corresponding attribute, i.e. "name", "director", "genre", "trailer".
+
+scope ends up with value:
 
 ```JavaScript
 {
@@ -85,40 +87,26 @@ It is shorthand for:
     "for": "itempropAttrs",
 }'>
   export const Scriptlet = class {
-    async do ({target, added, value, scope}) => {
-      target.contentEditable = added;
+    async mutate (ctx) => {
+      if(ctx.added){
+        this.do(ctx);
+      }
+    }
+    async do ({target, value, scope}) => {
       scope[value] = ('href' in target) ? target.href : target.textContent;
+      target.contentEditable = true;
+      
     }
     
   }
 </script>
 ```
 
-## Example 3:  [TODO]
+itempropAttrs is a way to say "look for all elements with attribute "itemprop" and pass the value of that attribute to the scriptlet contained inside.
 
-```html
-<div itemscope itemtype="https://schema.org/Movie">
-  <h1 itemprop="name">Avatar</h1>
-  <span>Director: <span itemprop="director">James Cameron</span> (born August 16,
-    1954)</span>
-  <span itemprop="genre">Science fiction</span>
-  <a href="https://youtu.be/0AY1XIkX7bY" itemprop="trailer">Trailer</a>
-</div>
-<script nomodule be-let=itempropAttrs>
-  [
-    {value: ('href' in target) ? target.href : target.textContent},
-    {contentEditable: true}
-  ]
-</script>
-```
+The last capital letter has to be an "A" for this to work.  So itempropAs would also work.  If the string doesn't end with an s, it only matches the first element, thereby preventing emitting greenhouse gases unnecessarily. [TODO]
 
-Why?  
-
-1.  If updating lots of things, the verbosity slightly slower.  
-2.  When writing out the explicit class in a separate js file, can be more library neutral / easier to test.
-3.  At least in this case, the target transform could become a JSON property of the be-let attribute (basically make it a transform on self).
-
-## Example 4: [TODO]
+## Example 3: [TODO]
 
 Often times we need to do something on initialization, and then the same thing anytime an event is fired.  be-let can help with this scenario:
 
@@ -140,29 +128,55 @@ shorthand for
 }'>
   export const Scriptlet = class{
     #abortController = new AbortController;
-    async init(ctx){
+    async mutate(ctx){
         if(added){
             target.addEventListener('input', e => {
                 this.do(ctx);
-            }, {signal: this.#abortController.signal})
+            }, {signal: this.#abortController.signal});
+            this.do(ctx);
         }else{
             this.#abortController.abort();
         }
     };
 
     async do ({target, added, value, scope}) => {
-      scope[value] = added ? 
-                  ('href' in target) ? target.href : target.textContent
-                : undefined;
+      scope[value] = ('href' in target) ? target.href : target.textContent
     }
 
-    async dispose(){
-      this.#abortController.abort();
-    }
+    
   }
 
 </script>
 ```
+
+## Example 4:  [TODO]
+
+```html
+<div itemscope itemtype="https://schema.org/Movie">
+  <h1 itemprop="name">Avatar</h1>
+  <span>Director: <span itemprop="director">James Cameron</span> (born August 16,
+    1954)</span>
+  <span itemprop="genre">Science fiction</span>
+  <a href="https://youtu.be/0AY1XIkX7bY" itemprop="trailer">Trailer</a>
+</div>
+<script nomodule be-let='{
+  "for": "itemprops",
+  "transform":{
+    "contentEditable": true
+  },
+  "toScope": true
+}'>
+  ('href' in target) ? target.href : target.textContent
+</script>
+```
+
+Why?  
+
+1.  If updating lots of things, the verbosity slightly slower.  
+2.  When writing out the explicit class in a separate js file, can be more library neutral / easier to test, and the name "value" doesn't have to be specified
+3.  At least in this case, the target transform could become a JSON property of the be-let attribute.
+
+
 
 
 
