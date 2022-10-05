@@ -7,9 +7,10 @@ import {
 } from 'be-watching/types';
 
 export interface EndUserProps extends BeWatchingEndUserProps<HTMLScriptElement>{
-    scopeTarget: Target;
-    Scriptlet: new () => Scriptlet;
-    nameOfScriptlet: string;
+    scopeTarget?: Target;
+    Scriptlet?: new () => Scriptlet;
+    nameOfScriptlet?: string;
+    doOn?: string;
 }
 
 export interface VirtualProps extends EndUserProps, BeWatchingVirtualProps<HTMLScriptElement>{

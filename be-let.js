@@ -56,7 +56,7 @@ export class BeLet extends BeWatching {
         const { self, nameOfScriptlet } = pp;
         if (!self.src) {
             const { rewrite } = await import('./rewrite.js');
-            rewrite(pp, this);
+            await rewrite(pp, this);
         }
         if (self._modExport) {
             this.assignScriptToProxy(pp);
@@ -85,9 +85,9 @@ define({
             forceVisible: [upgrade],
             virtualProps: [
                 ...virtualProps, 'scopeTarget', 'scope', 'Scriptlet',
-                'nameOfScriptlet'
+                'nameOfScriptlet', 'doOn'
             ],
-            primaryProp: 'for',
+            primaryProp: 'forAll',
             proxyPropDefaults: {
                 subtree: true,
                 childList: true,

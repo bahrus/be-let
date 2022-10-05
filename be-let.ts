@@ -8,7 +8,7 @@ export class BeLet extends BeWatching implements Actions{
     #scriptletInstance: Scriptlet | undefined;
     async onScopeTarget({self, scopeTarget, proxy}: PP){
         const {findRealm} = await import('trans-render/lib/findRealm.js');
-        const el = await findRealm(self, scopeTarget) as Element;
+        const el = await findRealm(self, scopeTarget!) as Element;
         proxy.scope = (<any>el).beDecorated?.scoped?.scope;
         if(proxy.scope === undefined){
             el.addEventListener('be-decorated.scoped.resolved', e => {
@@ -26,7 +26,7 @@ export class BeLet extends BeWatching implements Actions{
     async hookUp(pp: PP){
         const {proxy, Scriptlet} = pp;
         if(this.#scriptletInstance === undefined){
-            this.#scriptletInstance = new Scriptlet();
+            this.#scriptletInstance = new Scriptlet!();
         }
         const nodeQueue = Array.from(this.#addedNodeQueue);
         for(const node of nodeQueue){
@@ -63,7 +63,7 @@ export class BeLet extends BeWatching implements Actions{
         const {self, nameOfScriptlet} = pp;
         if(!self.src){
             const {rewrite} = await import('./rewrite.js');
-            rewrite(pp, this);
+            await rewrite(pp, this);
         }
         if((self as any)._modExport){
             this.assignScriptToProxy(pp)
@@ -79,7 +79,7 @@ export class BeLet extends BeWatching implements Actions{
     }
 
     assignScriptToProxy({nameOfScriptlet, proxy, self}: PP){
-        proxy.Scriptlet = (self as any)._modExport[nameOfScriptlet];
+        proxy.Scriptlet = (self as any)._modExport[nameOfScriptlet!];
     }
     
     
@@ -100,9 +100,9 @@ define<Proxy & BeDecoratedProps<Proxy, Actions>, Actions>({
             forceVisible: [upgrade],
             virtualProps: [
                 ...virtualProps, 'scopeTarget', 'scope', 'Scriptlet',
-                'nameOfScriptlet'
+                'nameOfScriptlet', 'doOn'
             ],
-            primaryProp: 'for',
+            primaryProp: 'forAll',
             proxyPropDefaults:{
                 subtree: true,
                 childList: true,

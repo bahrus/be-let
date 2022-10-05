@@ -14,7 +14,10 @@
         <span itemprop="genre">Science fiction</span>
         <a href="https://youtu.be/0AY1XIkX7bY" itemprop="trailer">Trailer</a>
     </div>
-    <script nomodule be-let=itempropA>
+    <script nomodule be-let='{
+        "forAll": "itempropA",
+        "doOn": "input"
+    }'>
         scope[attrVal] = ('href' in target) ? target.href : target.textContent;
     </script>
     <script type=importmap>

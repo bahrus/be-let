@@ -1,4 +1,4 @@
-# be-let [TODO]
+# be-let 
 
 *be-let* is a [be-decorated](https://github.com/bahrus/be-decorated) HTML element behavior / decorator.
 
@@ -107,7 +107,7 @@ The syntax of Example 2 above is shorthand for:
 
 The last capital letter has to be an "A" for this to happen.  So itempropA would also work.
 
-## Example 3: [TODO]
+## Example 3: 
 
 Often times we need to do something on initialization, and then the same thing anytime an event is fired.  be-let can help with this scenario:
 
@@ -133,8 +133,8 @@ shorthand for
   export const Scriptlet = class{
     #abortController = new AbortController;
     async reg(ctx){
-        if(added  && this.go){
-            target.addEventListener('input', e => {
+        if(ctx.added  && this.go){
+            ctx.target.addEventListener('input', e => {
                 this.go(ctx);
             }, {signal: this.#abortController.signal});
             this.go(ctx);
