@@ -95,9 +95,8 @@ The syntax of Example 2 above is shorthand for:
       }
     }
     async go ({target, attrVal, scope}) => {
-      scope[attrVal] = ('href' in target) ? target.href : target.textContent;
       target.contentEditable = true;
-      
+      scope[attrVal] = ('href' in target) ? target.href : target.textContent;
     }
     
   }
@@ -117,7 +116,7 @@ Often times we need to do something on initialization, and then the same thing a
   "forAll": "itempropA",
   "doOn": "input",
 }'>
-    scope[value] = ('href' in target) === 'a' ? target.href : target.textContent;
+    scope[attrVal] = ('href' in target) === 'a' ? target.href : target.textContent;
 </script>
 ```
 
@@ -144,8 +143,8 @@ shorthand for
         }
     };
 
-    async go ({target, added, value, scope}) => {
-      scope[value] = ('href' in target) ? target.href : target.textContent
+    async go ({target, added, attrVal, scope}) => {
+      scope[attrVal] = ('href' in target) ? target.href : target.textContent
     }
 
     
@@ -164,7 +163,21 @@ doOn can also be an array of events.
   "let":{
     "contentEditable": true //IObserve
   },
-  "setScopeFromValue": true
+  "resultToScope": true
+}'>
+  ('href' in target) ? target.href : target.textContent
+</script>
+```
+
+```html
+<script nomodule be-let='{
+  "forAll": "itempropA",
+  "let":{
+    "contentEditable": true //IObserve
+  },
+  "resultToScope": {
+    "as": "someScopeProp"
+  }
 }'>
   ('href' in target) ? target.href : target.textContent
 </script>
@@ -173,7 +186,7 @@ doOn can also be an array of events.
 Why?  
 
 1.  If updating lots of things, the verbosity slightly slower.  
-2.  When writing out the explicit class in a separate js file, can be more library neutral / easier to test, and the name "value" doesn't have to be specified
+2.  When writing out the explicit class in a separate js file, can be more library neutral / easier to test, and the name "attrVal" doesn't have to be specified
 3.  At least in this case, the target transform could become a JSON property of the be-let attribute.
 
 
