@@ -85,8 +85,8 @@ The syntax of Example 2 above is shorthand for:
 <script nomodule be-exporting be-let='{
     "scopeTarget": ["upSearch", ":not(script)"],
     "forAll": "itempropAttrs",
+    "be": "reg",
     "do": "go"
-    //"onMutate": "mutate",
 }'>
   export const Scriptlet = class {
     async reg (ctx) => {
@@ -104,7 +104,7 @@ The syntax of Example 2 above is shorthand for:
 </script>
 ```
 
-itempropAttrs is a way to say "look for all elements with attribute "itemprop" and pass the value of that attribute to the scriptlet contained inside.
+"forAll": "itempropAttrs" is a way to say "look for all elements with attribute "itemprop" and pass the value of that attribute to the scriptlet contained inside.
 
 The last capital letter has to be an "A" for this to work.  So itempropA would also work.
 
@@ -153,22 +153,17 @@ shorthand for
 </script>
 ```
 
+doOn can also be an array of events.
+
 ## Example 4:  [TODO]
 
 ```html
-<div itemscope itemtype="https://schema.org/Movie">
-  <h1 itemprop="name">Avatar</h1>
-  <span>Director: <span itemprop="director">James Cameron</span> (born August 16,
-    1954)</span>
-  <span itemprop="genre">Science fiction</span>
-  <a href="https://youtu.be/0AY1XIkX7bY" itemprop="trailer">Trailer</a>
-</div>
 <script nomodule be-let='{
-  "for": "itemprops",
-  "transform":{
-    "contentEditable": true
+  "forAll": "itemprops",
+  "let":{
+    "contentEditable": true //IObserve
   },
-  "toScope": true
+  "setScopeFromValue": true
 }'>
   ('href' in target) ? target.href : target.textContent
 </script>
