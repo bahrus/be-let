@@ -28,7 +28,7 @@ In what follows, we will basically be working with that use case, but there's no
       <a href="https://youtu.be/0AY1XIkX7bY" itemprop="trailer">Trailer</a>
   </div>
   <script nomodule be-let=[itemprop]>
-      console.log(scope, target, ctx, added);
+      console.log({target, scope, ctx, added, value});
   </script>
 ```
 
@@ -40,7 +40,7 @@ In case you were wondering, be-let doesn't provide any support for avoiding boil
 
 ```html
 <script nomodule be-let=[itemprop]>
-    scope.addEventHandler('name", e => {
+    scope.addEventHandler('name', e => {
       //this fires anytime the value of scope.name is changed.
     });
 </script>
