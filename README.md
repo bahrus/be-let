@@ -157,13 +157,17 @@ doOn can also be an array of events.
 
 ## Example 4:  [TODO]
 
+Find a good use case before implementing.
+
 ```html
 <script nomodule be-let='{
   "forAll": "itempropA",
-  "let":{
+  "targetLet":{
     "contentEditable": true //IObserve
   },
-  "resultToScope": true
+  "scopeLet":{
+    //IObserve params
+  }
 }'>
   ('href' in target) ? target.href : target.textContent
 </script>

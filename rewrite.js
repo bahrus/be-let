@@ -3,7 +3,7 @@ export function rewrite({ self, nameOfScriptlet }, instance) {
     if (inner.indexOf('class ') === -1) {
         inner = `
 export const ${nameOfScriptlet} = class {
-    async mutate(ctx){
+    async reg(ctx){
         if(ctx.added){
             this.do(ctx);
         }
