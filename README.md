@@ -32,7 +32,7 @@ In what follows, we will basically be working with that use case, but there's no
   </script>
 ```
 
-This results in the four elements with attribute itemprop getting logged to the console.  It will create a shared scope object associated with the div element (empty in this example, if there are no other adjacent be-let's doing some its thing.)
+This results in the four elements with attribute itemprop getting logged to the console.  It will create a shared scope object associated with the div element (empty in this example, if there are no other adjacent be-let's doing its thing.)
 
 
 
@@ -83,18 +83,18 @@ The syntax of Example 2 above is shorthand for:
 
 ```html
 <script nomodule be-exporting be-let='{
-    "beScoping": ["upSearch", ":not(script)"],
-    "for": "itempropAttrs",
+    "scopeTarget": ["upSearch", ":not(script)"],
+    "forAll": "itempropAttrs",
+    "do": "go"
     //"onMutate": "mutate",
-    //"onNewMatch": "do"
 }'>
   export const Scriptlet = class {
-    async mutate (ctx) => {
-      if(ctx.added){
-        this.do(ctx);
+    async reg (ctx) => {
+      if(ctx.added && this.go){
+        this.go(ctx);
       }
     }
-    async do ({target, value, scope}) => {
+    async go ({target, value, scope}) => {
       scope[value] = ('href' in target) ? target.href : target.textContent;
       target.contentEditable = true;
       
@@ -114,8 +114,8 @@ Often times we need to do something on initialization, and then the same thing a
 
 ```html
 <script nomodule be-let='{
-  "for": "itempropAs",
-  "on": "input",
+  "forAll": "itempropA",
+  "doOn": "input",
 }'>
     scope[value] = ('href' in target) === 'a' ? target.href : target.textContent;
 </script>
@@ -125,23 +125,25 @@ shorthand for
 
 ```html
 <script nomodule be-exporting be-let='{
-  "beScoping": ["upSearch", ":not(script)"],
-  "for": "contenteditableAs"
+  "scopeTarget": ["upSearch", ":not(script)"],
+  "forAll": "itempropA",
+  "do": "go",
+  "doOn": "input"
 }'>
   export const Scriptlet = class{
     #abortController = new AbortController;
-    async mutate(ctx){
-        if(added){
+    async reg(ctx){
+        if(added  && this.go){
             target.addEventListener('input', e => {
-                this.do(ctx);
+                this.go(ctx);
             }, {signal: this.#abortController.signal});
-            this.do(ctx);
+            this.go(ctx);
         }else{
             this.#abortController.abort();
         }
     };
 
-    async do ({target, added, value, scope}) => {
+    async go ({target, added, value, scope}) => {
       scope[value] = ('href' in target) ? target.href : target.textContent
     }
 
