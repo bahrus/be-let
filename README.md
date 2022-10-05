@@ -28,7 +28,7 @@ In what follows, we will basically be working with that use case, but there's no
       <a href="https://youtu.be/0AY1XIkX7bY" itemprop="trailer">Trailer</a>
   </div>
   <script nomodule be-let=[itemprop]>
-      console.log({target, scope, ctx, added, value});
+      console.log({target, scope, ctx, added});
   </script>
 ```
 
@@ -61,11 +61,11 @@ For the mirror behavior of be-let, that provides more declarative support for ma
 </div>
 <script nomodule be-let=itempropAttrs>
     target.contentEditable = true;
-    scope[value] = ('href' in target) ? target.href : target.textContent;
+    scope[attrVal] = ('href' in target) ? target.href : target.textContent;
 </script>
 ```
 
-The value of "value" will be the values of the corresponding attribute, i.e. "name", "director", "genre", "trailer".
+The value of "attrVal" will be the values of the corresponding attribute, i.e. "name", "director", "genre", "trailer".
 
 scope ends up as follows:
 
@@ -94,8 +94,8 @@ The syntax of Example 2 above is shorthand for:
         this.go(ctx);
       }
     }
-    async go ({target, value, scope}) => {
-      scope[value] = ('href' in target) ? target.href : target.textContent;
+    async go ({target, attrVal, scope}) => {
+      scope[attrVal] = ('href' in target) ? target.href : target.textContent;
       target.contentEditable = true;
       
     }
@@ -104,9 +104,9 @@ The syntax of Example 2 above is shorthand for:
 </script>
 ```
 
-"forAll": "itempropAttrs" is a way to say "look for all elements with attribute "itemprop" and pass the value of that attribute to the scriptlet contained inside.
+"forAll": "itempropAttrs" is a way to say "look for all elements with attribute "itemprop" and pass the value of that attribute to the scriptlet contained inside (identified as "attrVal").
 
-The last capital letter has to be an "A" for this to work.  So itempropA would also work.
+The last capital letter has to be an "A" for this to happen.  So itempropA would also work.
 
 ## Example 3: [TODO]
 
@@ -127,6 +127,7 @@ shorthand for
 <script nomodule be-exporting be-let='{
   "scopeTarget": ["upSearch", ":not(script)"],
   "forAll": "itempropA",
+  "be": "reg",
   "do": "go",
   "doOn": "input"
 }'>
@@ -159,7 +160,7 @@ doOn can also be an array of events.
 
 ```html
 <script nomodule be-let='{
-  "forAll": "itemprops",
+  "forAll": "itempropA",
   "let":{
     "contentEditable": true //IObserve
   },

@@ -33,15 +33,15 @@ export interface Actions extends BeWatchingActions{
 
 export interface Context<TElement = Element, TScope = EventTarget>{
     target?: TElement,
-    value?: string | null,
+    attrVal?: string | null,
     added: boolean,
     scope: TScope,
     ctx?: Context<TElement, TScope>,
 }
 
 export interface Scriptlet<TElement = Element, TScope = EventTarget> {
-    mutate(ctx: Context<TElement, TScope>): Promise<void>;
-    do(ctx: Context<TElement, TScope>): Promise<void>;
+    reg(ctx: Context<TElement, TScope>): Promise<void>;
+    go(ctx: Context<TElement, TScope>): Promise<void>;
 }
 
 
