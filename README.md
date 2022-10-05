@@ -1,8 +1,8 @@
 # be-let 
 
-*be-let* is a [be-decorated](https://github.com/bahrus/be-decorated) HTML element behavior / decorator.
+*be-let* is a "be-" based [be-decorated](https://github.com/bahrus/be-decorated) HTML element behavior / decorator.
 
-*be-let* provides a [light](https://www.wordsense.eu/let/#Danish)-[weight](https://developer.mozilla.org/en-US/docs/Web/API/Worklet) way of turning a section of HTML into tiny unnamed islands of interactivity.  As with all be-decorated element behaviors, when the attribute "be-let" is applied to an HTML element, the attribute switches to "is-let" after upgrading.  So we end up with lots of is-lets (get it?).
+*be-let* provides a [light](https://www.wordsense.eu/let/#Danish)-[weight](https://developer.mozilla.org/en-US/docs/Web/API/Worklet) way of turning a section of HTML into tiny unnamed islands of interactivity, modeled after be- based behavior -- "be-lets".  As with all be-decorated element behaviors, when the attribute "be-let" is applied to an HTML element, the attribute switches to "is-let" after upgrading.  So we end up with lots of is-lets (get it?).
 
 To work with a be-let, developers can create reusable "scriptlets" similar in concept to this [stranded technology](https://learn.microsoft.com/en-us/previous-versions/office/developer/office2000/aa189871(v=office.10)?redirectedfrom=MSDN). Then, as time permits, it should be easy to formalize the scriptlet into an element decorator / behavior or even a web component should the needs arise (solidifying requirements, reusable), and let go of the be-let. 
 
