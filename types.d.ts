@@ -31,15 +31,17 @@ export interface Actions extends BeWatchingActions{
     importSymbols(pp: PP): void;
 }
 
-export interface doArg<TElement = Element, TScope = EventTarget>{
+export interface Context<TElement = Element, TScope = EventTarget>{
     target?: TElement,
     value?: string | null,
     added: boolean,
-    scope: TScope
+    scope: TScope,
+    ctx?: Context<TElement, TScope>,
 }
 
 export interface Scriptlet<TElement = Element, TScope = EventTarget> {
-    do(arg: doArg<TElement, TScope>): Promise<void>;
+    mutate(ctx: Context<TElement, TScope>): Promise<void>;
+    do(ctx: Context<TElement, TScope>): Promise<void>;
 }
 
 

@@ -1,5 +1,5 @@
 import {define, BeDecoratedProps } from 'be-decorated/be-decorated.js';
-import {Actions, Proxy, PP, VirtualProps, ProxyProps, Scriptlet, doArg} from './types';
+import {Actions, Proxy, PP, VirtualProps, ProxyProps, Scriptlet, Context} from './types';
 import {register} from 'be-hive/register.js';
 import {BeWatching, virtualProps, actions as BeWatchingActions} from 'be-watching/be-watching.js';
 
@@ -36,10 +36,10 @@ export class BeLet extends BeWatching implements Actions{
 
     handleNode(pp: PP, node: Node, added: boolean){
         const {scope, queryInfo} = pp;
-        console.log({queryInfo});
         const value = queryInfo!.match === 'A' ? (node as Element).getAttribute(queryInfo!.attrib!) : undefined;
-        const args: doArg = {target: node as Element, added, scope, value};
-        this.#scriptletInstance!.do(args);
+        const ctx: Context = {target: node as Element, added, scope, value};
+        ctx.ctx = ctx;
+        this.#scriptletInstance!.mutate(ctx);
     }
     #addedNodeQueue: Set<Node> = new Set<Node>();
     //#removedNodeQueue: Set<Node> = new Set<Node>();
@@ -59,20 +59,12 @@ export class BeLet extends BeWatching implements Actions{
         }
     }
 
-    importSymbols(pp: PP): void {
+    async importSymbols(pp: PP){
         const {self, nameOfScriptlet} = pp;
-        let inner = self.innerHTML.trim();
-        if(inner.indexOf('class ') === -1){
-            inner = `
-export const ${nameOfScriptlet} = class {
-    do({target, added, value, scope}){
-        ${inner}
-    }
-}
-            `
-
+        if(!self.src){
+            const {rewrite} = await import('./rewrite.js');
+            rewrite(pp, this);
         }
-        self.innerHTML = inner;
         if((self as any)._modExport){
             this.assignScriptToProxy(pp)
         }else{

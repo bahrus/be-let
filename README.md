@@ -2,7 +2,7 @@
 
 *be-let* is a [be-decorated](https://github.com/bahrus/be-decorated) HTML element behavior / decorator.
 
-*be-let* provides a [light](https://www.wordsense.eu/let/#Danish)-[weight](https://developer.mozilla.org/en-US/docs/Web/API/Worklet) way of turning a section of HTML into tiny unnamed islands of interactivity.  As with all be-decorated element behaviors, when the attribute be-let is applied to an HTML element, the attribute switches to "is-let" after upgrading.  So we end up with lots of is-lets (get it?).
+*be-let* provides a [light](https://www.wordsense.eu/let/#Danish)-[weight](https://developer.mozilla.org/en-US/docs/Web/API/Worklet) way of turning a section of HTML into tiny unnamed islands of interactivity.  As with all be-decorated element behaviors, when the attribute "be-let" is applied to an HTML element, the attribute switches to "is-let" after upgrading.  So we end up with lots of is-lets (get it?).
 
 To work with a be-let, developers can create reusable "scriptlets" similar in concept to this [stranded technology](https://learn.microsoft.com/en-us/previous-versions/office/developer/office2000/aa189871(v=office.10)?redirectedfrom=MSDN). Then, as time permits, it should be easy to formalize the scriptlet into an element decorator / behavior or even a web component should the needs arise (solidifying requirements, reusable), and let go of the be-let. 
 
@@ -28,7 +28,7 @@ In what follows, we will basically be working with that use case, but there's no
       <a href="https://youtu.be/0AY1XIkX7bY" itemprop="trailer">Trailer</a>
   </div>
   <script nomodule be-let=[itemprop]>
-      console.log(scope, target, added);
+      console.log(scope, target, ctx, added);
   </script>
 ```
 
@@ -67,7 +67,7 @@ For the mirror behavior of be-let, that provides more declarative support for ma
 
 The value of "value" will be the values of the corresponding attribute, i.e. "name", "director", "genre", "trailer".
 
-scope ends up with value:
+scope ends up as follows:
 
 ```JavaScript
 {
@@ -79,12 +79,14 @@ scope ends up with value:
 ```
 
 
-It is shorthand for:
+The syntax of Example 2 above is shorthand for:
 
 ```html
 <script nomodule be-exporting be-let='{
     "beScoping": ["upSearch", ":not(script)"],
     "for": "itempropAttrs",
+    "onMutate": "mutate",
+    "onNewMatch": "do"
 }'>
   export const Scriptlet = class {
     async mutate (ctx) => {

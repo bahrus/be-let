@@ -29,10 +29,10 @@ export class BeLet extends BeWatching {
     }
     handleNode(pp, node, added) {
         const { scope, queryInfo } = pp;
-        console.log({ queryInfo });
         const value = queryInfo.match === 'A' ? node.getAttribute(queryInfo.attrib) : undefined;
-        const args = { target: node, added, scope, value };
-        this.#scriptletInstance.do(args);
+        const ctx = { target: node, added, scope, value };
+        ctx.ctx = ctx;
+        this.#scriptletInstance.mutate(ctx);
     }
     #addedNodeQueue = new Set();
     //#removedNodeQueue: Set<Node> = new Set<Node>();
@@ -52,19 +52,12 @@ export class BeLet extends BeWatching {
             this.handleNode(pp, node, false);
         }
     }
-    importSymbols(pp) {
+    async importSymbols(pp) {
         const { self, nameOfScriptlet } = pp;
-        let inner = self.innerHTML.trim();
-        if (inner.indexOf('class ') === -1) {
-            inner = `
-export const ${nameOfScriptlet} = class {
-    do({target, added, value, scope}){
-        ${inner}
-    }
-}
-            `;
+        if (!self.src) {
+            const { rewrite } = await import('./rewrite.js');
+            rewrite(pp, this);
         }
-        self.innerHTML = inner;
         if (self._modExport) {
             this.assignScriptToProxy(pp);
         }
