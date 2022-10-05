@@ -49,7 +49,7 @@ In case you were wondering, be-let doesn't provide any support for avoiding boil
 For the mirror behavior of be-let, that provides more declarative support for managing scope, please see [be-scoping](https://github.com/bahrus/be-scoping).
 
 
-## Example 2 [TODO]
+## Example 2
 
 ```html
 <div itemscope itemtype="https://schema.org/Movie">
@@ -85,8 +85,8 @@ The syntax of Example 2 above is shorthand for:
 <script nomodule be-exporting be-let='{
     "beScoping": ["upSearch", ":not(script)"],
     "for": "itempropAttrs",
-    "onMutate": "mutate",
-    "onNewMatch": "do"
+    //"onMutate": "mutate",
+    //"onNewMatch": "do"
 }'>
   export const Scriptlet = class {
     async mutate (ctx) => {
@@ -106,7 +106,7 @@ The syntax of Example 2 above is shorthand for:
 
 itempropAttrs is a way to say "look for all elements with attribute "itemprop" and pass the value of that attribute to the scriptlet contained inside.
 
-The last capital letter has to be an "A" for this to work.  So itempropAs would also work.  If the string doesn't end with an s, it only matches the first element, thereby preventing emitting greenhouse gases unnecessarily. [TODO]
+The last capital letter has to be an "A" for this to work.  So itempropA would also work.
 
 ## Example 3: [TODO]
 
