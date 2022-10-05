@@ -8,10 +8,10 @@ export function rewrite({self, nameOfScriptlet}: PP, instance: BeLet){
 export const ${nameOfScriptlet} = class {
     async reg(ctx){
         if(ctx.added){
-            this.do(ctx);
+            this.go(ctx);
         }
     }
-    async do({target, scope, value, added, ctx}){
+    async go({target, scope, attrVal, added, ctx}){
         ${inner}
     }
 }
