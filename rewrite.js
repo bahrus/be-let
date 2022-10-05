@@ -1,21 +1,21 @@
 export async function rewrite({ self, nameOfScriptlet, doOn }, instance) {
     let inner = self.innerHTML.trim();
-    const doOnArr = typeof doOn === 'string' ? [doOn] : doOn;
-    let controllers = [];
-    let eventHandlers = [];
-    if (doOnArr !== undefined) {
-        const { lispToCamel } = await import('trans-render/lib/lispToCamel.js');
-        const cc = doOnArr.map(s => [s, `#${lispToCamel(s)}AbortController`,]);
-        controllers = cc.map(s => `
-${s[1]} = new AbortController();
-`);
-        eventHandlers = cc.map(s => `
-ctx.target.addEventListener('${s[0]}', e => {
-    this.go(ctx);
-}, {signal: this.${s[1]}.signal});
-`);
-    }
-    if (inner.indexOf('class ') === -1) {
+    if (inner.indexOf('class') === -1) {
+        const doOnArr = typeof doOn === 'string' ? [doOn] : doOn;
+        let controllers = [];
+        let eventHandlers = [];
+        if (doOnArr !== undefined) {
+            const { lispToCamel } = await import('trans-render/lib/lispToCamel.js');
+            const cc = doOnArr.map(s => [s, `#${lispToCamel(s)}AbortController`,]);
+            controllers = cc.map(s => `
+    ${s[1]} = new AbortController();
+    `);
+            eventHandlers = cc.map(s => `
+    ctx.target.addEventListener('${s[0]}', e => {
+        this.go(ctx);
+    }, {signal: this.${s[1]}.signal});
+    `);
+        }
         inner = `
 
 export const ${nameOfScriptlet} = class {
