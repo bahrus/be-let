@@ -165,7 +165,7 @@ doOn can also be an array of events.
 
 ## Example 4:  [TODO]
 
-Find a good use case before implementing.
+Find a good use case before implementing. [TODO]
 
 ```html
 <script nomodule be-let='{
@@ -197,7 +197,7 @@ Find a good use case before implementing.
 
 Why?  
 
-1.  If updating lots of things, the verbosity slightly slower.  
+1.  If updating lots of things, the verbosity slightly lower.  
 2.  When writing out the explicit class in a separate js file, can be more library neutral / easier to test, and the name "attrVal" doesn't have to be specified
 3.  At least in this case, the target transform could become a JSON property of the be-let attribute.
 
