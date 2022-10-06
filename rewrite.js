@@ -1,4 +1,4 @@
-export async function rewrite({ self, nameOfScriptlet, doOn }, instance) {
+export async function rewrite({ self, nameOfScriptlet, doOn, do: reg, and }, instance) {
     let inner = self.innerHTML.trim();
     if (inner.indexOf('class') === -1) {
         const doOnArr = typeof doOn === 'string' ? [doOn] : doOn;
@@ -20,13 +20,13 @@ export async function rewrite({ self, nameOfScriptlet, doOn }, instance) {
 
 export const ${nameOfScriptlet} = class {
     ${controllers.join('')}
-    async reg(ctx){
+    async ${reg}(ctx){
         ${eventHandlers.join('')}
         if(ctx.added){
-            this.go(ctx);
+            this.${and}(ctx);
         }
     }
-    async go({target, scope, attrVal, added, ctx}){
+    async ${and}({target, scope, attrVal, added, ctx}){
         ${inner}
     }
 }

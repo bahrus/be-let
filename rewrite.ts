@@ -1,7 +1,7 @@
 import {PP} from './types';
 import {BeLet} from './be-let.js';
 
-export async function rewrite({self, nameOfScriptlet, doOn}: PP, instance: BeLet){
+export async function rewrite({self, nameOfScriptlet, doOn, do: reg, and}: PP, instance: BeLet){
     let inner = self.innerHTML.trim();
 
     if(inner.indexOf('class') === -1){
@@ -24,13 +24,13 @@ export async function rewrite({self, nameOfScriptlet, doOn}: PP, instance: BeLet
 
 export const ${nameOfScriptlet} = class {
     ${controllers.join('')}
-    async reg(ctx){
+    async ${reg}(ctx){
         ${eventHandlers.join('')}
         if(ctx.added){
-            this.go(ctx);
+            this.${and}(ctx);
         }
     }
-    async go({target, scope, attrVal, added, ctx}){
+    async ${and}({target, scope, attrVal, added, ctx}){
         ${inner}
     }
 }

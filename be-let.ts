@@ -104,7 +104,7 @@ define<Proxy & BeDecoratedProps<Proxy, Actions>, Actions>({
             forceVisible: [upgrade],
             virtualProps: [
                 ...virtualProps, 'scopeTarget', 'scope', 'Scriptlet',
-                'nameOfScriptlet', 'doOn', 'injectScope', 'propPath', 'readyEvent',
+                'nameOfScriptlet', 'doOn', 'injectScope', 'propPath', 'readyEvent', 'do', 'and'
             ],
             primaryProp: 'forAll',
             proxyPropDefaults:{
@@ -118,6 +118,8 @@ define<Proxy & BeDecoratedProps<Proxy, Actions>, Actions>({
                 injectScope: true,
                 propPath: '.beDecorated.scoped.scope',
                 readyEvent: 'be-decorated.scoped.resolved',
+                do: 'reg',
+                and: 'go'
             }
         },
         actions:{

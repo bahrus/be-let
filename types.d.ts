@@ -14,6 +14,14 @@ export interface EndUserProps extends BeWatchingEndUserProps<HTMLScriptElement>{
     injectScope?: boolean;
     propPath?: string;
     readyEvent?: string;
+    /**
+     * call specified method when elements match or stop matching
+     */
+    do?: string;
+    /**
+     * call this if element matches
+     */
+    and?: string;
 }
 
 export interface VirtualProps extends EndUserProps, BeWatchingVirtualProps<HTMLScriptElement>{

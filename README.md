@@ -93,8 +93,8 @@ The syntax of Example 2 above is shorthand for:
 <script nomodule be-exporting be-let='{
     "scopeTarget": ["upSearch", ":not(script)"],
     "forAll": "itempropAttrs",
-    "be": "reg",
-    "do": "go"
+    "do": "reg",
+    "and": "go"
 }'>
   export const Scriptlet = class {
     async reg (ctx) => {
