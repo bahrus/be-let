@@ -20,6 +20,8 @@
     }'>
         scope[attrVal] = ('href' in target) ? target.href : target.textContent;
     </script>
+    <div id='target'></div>
+
     <script type=importmap>
         {
             "imports": {
@@ -36,5 +38,22 @@
     <script type=module>
         import '../be-let.js';
     </script>
+        <script>
+            function runScript(){
+                const test = document.querySelector('[itemprop="name"]');
+                test.textContent += ": The Way of Water";
+                test.dispatchEvent(new Event('input'));
+                setTimeout(() => {
+                    const scopeEl = document.querySelector('[itemscope]');
+                    if(scopeEl.beDecorated.scoped.scope.name === 'Avatar: The Way of Water'){
+                        target.setAttribute('mark', 'good');
+                    }
+                }, 500);
+               
+            }
+            setTimeout(() => {
+               runScript();
+           }, 2000);
+       </script>
 </body>
 </html>
