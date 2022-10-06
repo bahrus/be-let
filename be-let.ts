@@ -10,7 +10,6 @@ export class BeLet extends BeWatching implements Actions{
     async onScopeTarget({self, scopeTarget, proxy, readyEvent, injectScope, propPath}: PP){
         const {findRealm} = await import('trans-render/lib/findRealm.js');
         const {getVal} = await import('trans-render/lib/getVal.js');
-        
         const el = await findRealm(self, scopeTarget!) as Element;
         const getValArg = {host: el} as getValArg;
         proxy.scope = await getVal(getValArg, propPath!);

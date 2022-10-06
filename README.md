@@ -87,14 +87,17 @@ scope ends up as follows:
 ```
 
 
-The syntax of Example 2 above is shorthand for:
+The syntax of Example 2 above is shorthand for numerous settings which aren't necessary to be aware of, but are there so they can be overridden as needed to accommodate a larger swath of use cases:
 
 ```html
 <script nomodule be-exporting be-let='{
     "scopeTarget": ["upSearch", ":not(script)"],
     "forAll": "itempropAttrs",
     "do": "reg",
-    "and": "go"
+    "and": "go",
+    "injectScope": true,
+    "propPath": ".beDecorated.scoped.scope",
+    "readyEvent": "be-decorated.scoped.resolved"
 }'>
   export const Scriptlet = class {
     async reg (ctx) => {
