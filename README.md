@@ -128,7 +128,7 @@ Oftentimes we need to do something on initialization, and then the same thing an
 </script>
 ```
 
-shorthand for 
+This is shorthand for:
 
 ```html
 <script nomodule be-exporting be-let='{
@@ -152,7 +152,7 @@ shorthand for
     };
 
     async go ({target, added, attrVal, scope}) => {
-      scope[attrVal] = ('href' in target) ? target.href : target.textContent
+      scope[attrVal] = ('href' in target) ? target.href : target.textContent;
     }
 
     
