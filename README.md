@@ -117,7 +117,7 @@ The last capital letter has to be an "A" for this to happen.  So itempropA would
 
 ## Example 3: 
 
-Often times we need to do something on initialization, and then the same thing anytime an event is fired.  be-let can help with this scenario:
+Oftentimes we need to do something on initialization, and then the same thing anytime an event is fired.  be-let can help with this scenario:
 
 ```html
 <script nomodule be-let='{
