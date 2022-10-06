@@ -2,17 +2,21 @@ import {define, BeDecoratedProps } from 'be-decorated/be-decorated.js';
 import {Actions, Proxy, PP, VirtualProps, ProxyProps, Scriptlet, Context} from './types';
 import {register} from 'be-hive/register.js';
 import {BeWatching, virtualProps, actions as BeWatchingActions} from 'be-watching/be-watching.js';
+import {getValArg} from 'trans-render/lib/types';
 
 export class BeLet extends BeWatching implements Actions{
 
     #scriptletInstance: Scriptlet | undefined;
-    async onScopeTarget({self, scopeTarget, proxy}: PP){
+    async onScopeTarget({self, scopeTarget, proxy, readyEvent, injectScope, propPath}: PP){
         const {findRealm} = await import('trans-render/lib/findRealm.js');
+        const {getVal} = await import('trans-render/lib/getVal.js');
+        
         const el = await findRealm(self, scopeTarget!) as Element;
-        proxy.scope = (<any>el).beDecorated?.scoped?.scope;
-        if(proxy.scope === undefined){
-            el.addEventListener('be-decorated.scoped.resolved', e => {
-                proxy.scope = (<any>el).beDecorated?.scoped?.scope;
+        const getValArg = {host: el} as getValArg;
+        proxy.scope = await getVal(getValArg, propPath!);
+        if(proxy.scope === undefined && injectScope){
+            el.addEventListener(readyEvent!, async e => {
+                proxy.scope = await getVal(getValArg, propPath!)
             }, {once: true});
             import('be-scoped/be-scoped.js');
             if(!el.matches('[be-scoped],[data-be-scoped],[is-scoped],[data-is-scoped]')){
@@ -100,7 +104,7 @@ define<Proxy & BeDecoratedProps<Proxy, Actions>, Actions>({
             forceVisible: [upgrade],
             virtualProps: [
                 ...virtualProps, 'scopeTarget', 'scope', 'Scriptlet',
-                'nameOfScriptlet', 'doOn'
+                'nameOfScriptlet', 'doOn', 'injectScope', 'propPath', 'readyEvent',
             ],
             primaryProp: 'forAll',
             proxyPropDefaults:{
@@ -110,7 +114,10 @@ define<Proxy & BeDecoratedProps<Proxy, Actions>, Actions>({
                 target: ['us', ':not(script)'],
                 doInit: true,
                 beWatchFul: true,
-                nameOfScriptlet: 'Scriptlet'
+                nameOfScriptlet: 'Scriptlet',
+                injectScope: true,
+                propPath: '.beDecorated.scoped.scope',
+                readyEvent: 'be-decorated.scoped.resolved',
             }
         },
         actions:{
