@@ -11,6 +11,8 @@ export interface EndUserProps extends BeWatchingEndUserProps<HTMLScriptElement>{
     Scriptlet?: new () => Scriptlet;
     nameOfScriptlet?: string;
     doOn?: string;
+    injectScope?: boolean;
+    path?: string;
 }
 
 export interface VirtualProps extends EndUserProps, BeWatchingVirtualProps<HTMLScriptElement>{
