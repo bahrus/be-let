@@ -1,10 +1,10 @@
 {
   "name": "be-let",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "provides a light-weight way of turning a section of HTML into tiny unnamed islands of interactivity, modeled after be- based behavior -- be-lets",
   "main": "be-let.js",
   "module": "be-let.js",
-  "exports":{
+  "exports": {
     ".": "./be-let.js",
     "./be-let.js": "./be-let.js"
   },
