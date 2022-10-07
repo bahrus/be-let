@@ -23,11 +23,11 @@
   },
   "dependencies": {
     "be-watching": "0.0.11",
-    "be-hive": "0.0.70",
+    "be-hive": "0.0.72",
     "be-decorated": "0.0.165",
     "be-exportable": "0.0.37",
     "be-scoped": "0.0.1",
-    "trans-render": "0.0.618"
+    "trans-render": "0.0.619"
   },
   "devDependencies": {
     "may-it-serve": "0.0.2",

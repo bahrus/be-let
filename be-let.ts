@@ -18,7 +18,9 @@ export class BeLet extends BeWatching implements Actions{
                 proxy.scope = await getVal(getValArg, propPath!)
             }, {once: true});
             import('be-scoped/be-scoped.js');
-            if(!el.matches('[be-scoped],[data-be-scoped],[is-scoped],[data-is-scoped]')){
+            const {getLocalName} = await import('be-hive/getLocalName.js');
+            const localName = await (await getLocalName(self, 'be-scoped'));
+            if(!el.matches(`[be-${localName}],[data-be-${localName}],[is-${localName}],[data-${localName}]`)){
                 el.setAttribute('be-scoped', '');
             }
             
