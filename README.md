@@ -54,7 +54,7 @@ In case you were wondering, be-let doesn't provide any support for avoiding boil
 </script>
 ```
 
-For the mirror behavior of be-let, that provides more declarative support for managing scope, please see [be-scoping](https://github.com/bahrus/be-scoping).
+For the mirror behavior of be-let, that provides more declarative support for managing scope, please see [be-injecting](https://github.com/bahrus/be-injecting).
 
 
 ## Example 2
