@@ -13,6 +13,6 @@ Extract values from other attributes of the element that the enhancement adorns.
         console.log(beLet.props.a - 3);
         //2
     });
-    tesRow.ariaRowindex = 5;
+    testRow.ariaRowindex = 5;
 </script>
 ```
